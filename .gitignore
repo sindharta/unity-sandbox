@@ -11,3 +11,8 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+Assets/*.pidb
+Assets/*.pidb.meta
+Build/*.*
+External/**/*.dll
+External/**/*.mdb
