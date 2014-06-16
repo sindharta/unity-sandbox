@@ -14,5 +14,5 @@
 Assets/*.pidb
 Assets/*.pidb.meta
 Build/*.*
-External/**/*.dll
+External/*/bin/*
 External/**/*.mdb
