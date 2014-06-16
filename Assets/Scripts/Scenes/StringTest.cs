@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0219 // variable assigned but not used.
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
