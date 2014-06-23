@@ -11,11 +11,11 @@ public class GameDataEditor  {
         //prepare data
         GameDatabase database = new GameDatabase();
         database.Init();
-        HeroData crono = AddHeroData (database,1,"Crono");
-        HeroData magus = AddHeroData (database,2,"Magus");
-        AddHeroData (database,3,"Marle");
-        AddHeroData (database,4,"Lucca");
-        AddHeroData (database,5,"Frog");
+        HeroData crono = AddHeroData (database,1,"Crono", HeroJob.WARRIOR);
+        HeroData magus = AddHeroData (database,2,"Magus", HeroJob.MAGICIAN);
+        AddHeroData (database,3,"Marle",HeroJob.MAGICIAN);
+        AddHeroData (database,4,"Lucca",HeroJob.MAGICIAN);
+        AddHeroData (database,5,"Frog" ,HeroJob.GUARDIAN);
         
         //Skills
         crono.Skills = new List<GameData.HeroSkillData>(3);
@@ -37,10 +37,11 @@ public class GameDataEditor  {
          
     }
      
-    public static HeroData AddHeroData(GameDatabase database, uint key, string str) {
+    public static HeroData AddHeroData(GameDatabase database, uint key, string str, HeroJob job) {
         HeroData new_data = new HeroData();
         new_data.ID = key;
         new_data.Name = str;
+        new_data.Job = job;
         new_data.HP = (uint) Random.Range(0,1000);
         new_data.MP = (uint) Random.Range(0,100);
         database.Hero.Add(key,new_data);
