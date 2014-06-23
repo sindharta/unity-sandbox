@@ -47,7 +47,9 @@ public class ProtoBufNetTest : MonoBehaviour {
             var cur = enumerator.Current;
             HeroData cur_data = cur.Value;
             int x = x_start;
-            string info = string.Format("{0} {1} {2} {3}",cur_data.ID, cur_data.Name, cur_data.HP, cur_data.MP);
+            string info = string.Format("{0} {1} {2} {3} {4}",
+                cur_data.ID, cur_data.Name, cur_data.HP, cur_data.MP,cur_data.Job.ToString()
+            );
             GUI.Label(new Rect(x, y , 300, 30), info); y+= y_diff;
                         
             //list skills
