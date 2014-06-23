@@ -1,6 +1,7 @@
 using ProtoBuf;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEngine;
 
 namespace GameData {
 
@@ -10,21 +11,25 @@ namespace GameData {
         GUARDIAN,
     }
 
-    [ProtoContract(SkipConstructor = true, ImplicitFields = ImplicitFields.AllFields)]
+    [ProtoContract(SkipConstructor = true)]
     public class HeroData {
-        public uint     ID;
-        public uint     HP;
-        public uint     MP;
-        public string   Name;
-        
-        //public Color    FavoriteColor;
-        //public Vector3  WeaponPos; 
-
-        [ProtoMember(6, AsReference = true)]
+        [ProtoMember(1)]
+        public uint ID;
+        [ProtoMember(2)]
+        public uint HP;
+        [ProtoMember(3)]
+        public uint MP;
+        [ProtoMember(4)]
+        public string Name;        
+        [ProtoMember(5, AsReference = true)]
         public List<HeroSkillData> Skills;
-
-        [ProtoMember(7), DefaultValue(HeroJob.WARRIOR)]
+        [ProtoMember(6), DefaultValue(HeroJob.WARRIOR)]
         public HeroJob Job;
+        [ProtoMember(7)]
+        public Color FavoriteColor;
+        [ProtoMember(8)]
+        public Vector3 WeaponPos; 
+
     }
 
 }
