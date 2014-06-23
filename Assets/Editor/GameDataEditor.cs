@@ -44,6 +44,8 @@ public class GameDataEditor  {
         new_data.Job = job;
         new_data.HP = (uint) Random.Range(0,1000);
         new_data.MP = (uint) Random.Range(0,100);
+        new_data.FavoriteColor = new Color(255,255,255);
+        new_data.WeaponPos = new Vector3(1,1,1);
         database.Hero.Add(key,new_data);
         return new_data;
     }    

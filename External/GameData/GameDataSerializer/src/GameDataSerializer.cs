@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace GameDataSerializer {
 
@@ -15,6 +16,8 @@ namespace GameDataSerializer {
 
             model.Add(typeof(HeroData), true);
             model.Add(typeof(GameDatabase), true);
+            model.Add(typeof(Color), true);
+            model.Add(typeof(Vector3), true);
 
             model.AllowParseableTypes = true;
             model.AutoAddMissingTypes = true;
@@ -24,14 +27,14 @@ namespace GameDataSerializer {
                 try {
                     File.Delete(output_file);
                 } catch (UnauthorizedAccessException) {
-                    Debug.WriteLine("No permission to delete " + output_file);
+                    System.Diagnostics.Debug.WriteLine("No permission to delete " + output_file);
                 }
             }
             model.Compile("GameDataSerializer", output_file);
 
             string final_destination = "../../../../Assets/Plugins/DLL/" + output_file;
             File.Copy(output_file,final_destination,true);
-            Debug.Write("Serializer DLL successfully created in " + final_destination);
+            System.Diagnostics.Debug.Write("Serializer DLL successfully created in " + final_destination);
         }
     }
 
