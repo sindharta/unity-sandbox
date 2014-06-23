@@ -3,6 +3,7 @@ using GameData;
 using System.Diagnostics;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace GameDataSerializer {
 
@@ -13,7 +14,7 @@ namespace GameDataSerializer {
             var model = TypeModel.Create();
 
             model.Add(typeof(HeroData), true);
-            model.Add(typeof(HeroDataDic), true);
+            model.Add(typeof(GameDatabase), true);
 
             model.AllowParseableTypes = true;
             model.AutoAddMissingTypes = true;
@@ -30,6 +31,7 @@ namespace GameDataSerializer {
 
             string final_destination = "../../../../Assets/Plugins/DLL/" + output_file;
             File.Copy(output_file,final_destination,true);
+            Debug.Write("Serializer DLL successfully created in " + final_destination);
         }
     }
 

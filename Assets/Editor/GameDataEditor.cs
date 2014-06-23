@@ -2,34 +2,55 @@
 using UnityEditor;
 using GameData;
 using System.IO;
+using System.Collections.Generic;
 
 public class GameDataEditor  {
 
     [MenuItem("GameData/Create")]
     public static void CreateGameData() {
         //prepare data
-        HeroDataDic data_dic = new HeroDataDic();
-        AddData (data_dic,1,"Crono");
-        AddData (data_dic,2,"Magus");
-        AddData (data_dic,3,"Marle");
-        AddData (data_dic,4,"Lucca");
-        AddData (data_dic,5,"Frog");
+        GameDatabase database = new GameDatabase();
+        database.Init();
+        HeroData crono = AddHeroData (database,1,"Crono");
+        HeroData magus = AddHeroData (database,2,"Magus");
+        AddHeroData (database,3,"Marle");
+        AddHeroData (database,4,"Lucca");
+        AddHeroData (database,5,"Frog");
         
+        //Skills
+        crono.Skills = new List<GameData.HeroSkillData>(3);
+        magus.Skills = new List<GameData.HeroSkillData>(3);
+        
+        crono.Skills.Add(CreateHeroSkillData("Fire",10));
+        crono.Skills.Add(CreateHeroSkillData("Blizzard",12));
+        crono.Skills.Add(CreateHeroSkillData("Thunder",14));
+        magus.Skills.Add(crono.Skills[0]);
+        magus.Skills.Add(crono.Skills[1]);
+        magus.Skills.Add(CreateHeroSkillData("Ultima",999999));
+                    
         //serialize
         GameDataSerializer gameDataSerializer = new GameDataSerializer();
         FileStream fs = new FileStream("Assets/Resources/GameData.bytes",FileMode.Create, FileAccess.Write, FileShare.None);
-        gameDataSerializer.Serialize(fs,data_dic);       
+        gameDataSerializer.Serialize(fs,database);       
         fs.Close ();
         EditorUtility.DisplayDialog("GameData","Game Data created successfully","Ok");
          
     }
      
-    public static void AddData(HeroDataDic dic, uint key, string str) {
+    public static HeroData AddHeroData(GameDatabase database, uint key, string str) {
         HeroData new_data = new HeroData();
         new_data.ID = key;
         new_data.Name = str;
         new_data.HP = (uint) Random.Range(0,1000);
         new_data.MP = (uint) Random.Range(0,100);
-        dic.Items.Add(key,new_data);
+        database.Hero.Add(key,new_data);
+        return new_data;
     }    
+    
+    public static HeroSkillData CreateHeroSkillData(string name, float damage) {
+        HeroSkillData new_skill_data = new HeroSkillData();
+        new_skill_data.Name   = name;
+        new_skill_data.Damage = damage;
+        return new_skill_data;
+    }
 }
