@@ -16,3 +16,4 @@ Assets/*.pidb.meta
 Build/*.*
 External/*/bin/*
 External/**/*.mdb
+Output/*.*
