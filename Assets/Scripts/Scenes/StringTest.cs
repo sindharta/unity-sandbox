@@ -48,10 +48,9 @@ public class StringTest : MonoBehaviour {
 		System.Text.StringBuilder format = new System.Text.StringBuilder("");	
 
 		for (uint i=0;i<MAX_DATA_COUNT;++i) {
-            GC.Collect();
 			Debug.Log (string.Format ("Test for {0} data ", i ));
 
-			//concat
+            //concat
             ProfileTest( () => {
                 ConcatString (i);
             }, out m_concatStringTime[i], out m_concatStringMemory[i]);
@@ -76,7 +75,7 @@ public class StringTest : MonoBehaviour {
 		}
 
         //outputting results
-        const string filename = "StringTestResult.txt";
+        const string filename = "Output/StringTestResult.txt";
         using (StreamWriter file = new StreamWriter(filename)) {
             
             file.WriteLine("TIME");
@@ -111,6 +110,7 @@ public class StringTest : MonoBehaviour {
     void ProfileTest(System.Action testFunc, out float timeResult, 
                      out uint memResult) 
     {
+        GC.Collect();
         float time_start = Time.realtimeSinceStartup;
         uint mem_start = Profiler.GetMonoUsedSize();
         testFunc ();
