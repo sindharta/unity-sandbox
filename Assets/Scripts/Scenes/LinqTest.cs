@@ -15,7 +15,18 @@ public static class ListExtensions {
         }                
         return default(T);
     }
-    
+
+    //
+    public static int IntFirstOrDefault(this List<int> List, int element)  {
+        var enumerator = List.GetEnumerator();
+        while (enumerator.MoveNext()) {
+            if (enumerator.Current == element) {
+                return enumerator.Current;
+            }
+        }
+        return default(int);
+    }
+
 }
 
 public class LinqTest : MonoBehaviour {
@@ -28,10 +39,13 @@ public class LinqTest : MonoBehaviour {
     [SerializeField]
     int m_searchElement = 3;
     
-  
-        
+
     void Awake() {
         m_list = new List<int>() { 1,2,3,4,5,6,7,8,9,10};
+    }
+
+    bool IsElementEqual(int element) {
+        return element == m_searchElement;
     }
         
 	// Update is called once per frames
@@ -55,14 +69,26 @@ public class LinqTest : MonoBehaviour {
             m_list.FirstOrDefault((e) => { return e == m_searchElement; } );
             Profiler.EndSample();
 
-            Profiler.BeginSample("LambdaCallFunc"); 
+            Profiler.BeginSample("LinqWithPredefinedFunc");
+            m_list.FirstOrDefault( IsElementEqual );
+            Profiler.EndSample();
+
+            Profiler.BeginSample("LambdaParameter");
             m_list.MyFirstOrDefault((e) => { return e == m_searchElement; } );
             Profiler.EndSample();
             
-            Profiler.BeginSample("LambdaParameter");
+            Profiler.BeginSample("LambdaWithPredefinedFunc");
+            m_list.MyFirstOrDefault(IsElementEqual);
+            Profiler.EndSample();
+
+            Profiler.BeginSample("LambdaSimple");
             int _x = 1;
             System.Action x = () => { _x = m_searchElement; }; x();
             Profiler.EndSample(); 
+
+            Profiler.BeginSample("CustomFunc");
+            m_list.IntFirstOrDefault(m_searchElement);
+            Profiler.EndSample();
         }
         
 	}
