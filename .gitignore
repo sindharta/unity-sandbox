@@ -17,3 +17,10 @@ Build/*.*
 External/*/bin/*
 External/**/*.mdb
 Output/*.*
+
+# Build
+Build/**
+
+# UnityVS files
+*.DotSettings
+Assets/UnityVS/Editor/UnityVS.VersionSpecific.*
