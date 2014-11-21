@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 219
+
+using UnityEngine;
 
 public class Vector3Test : MonoBehaviour {
     [SerializeField]
