@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Text;
 
 /*
@@ -10,7 +9,7 @@ From: http://wiki.unity3d.com/index.php/AllocationStats
     allocated when GC was called last time inside parentheses.
 3. "Allocation rate" Shows how fast the application is allocating memory in mb per eh, 0.3 seconds. 
 4. "Collection frequency" Shows how far apart the GC collections are spaced in seconds.
-5. "Last collect delta" Shows how high the framerate was when GC was last called, 
+5. "Delta time dur. collection" Shows how high the framerate was when GC was last called, 
     GC calls usually make the framerate drop.
 */
 
@@ -25,7 +24,7 @@ public class MemoryDebugInfo: MonoBehaviour {
     float m_updateFrequency = 0.3f;
 
     [SerializeField]
-    float m_targetMaxMemory; //bytes
+    float m_maxMem; //Mega Bytes
     [SerializeField]
     Texture m_warningTexture;
 
@@ -33,15 +32,15 @@ public class MemoryDebugInfo: MonoBehaviour {
     [SerializeField]
     bool m_useProfiler = false;
     [SerializeField]
-    int m_targetMaxMeshMemory;
+    int m_maxMeshMem;  //Mega Bytes
     [SerializeField]
-    int m_targetMaxTextureMemory;
+    int m_maxTexMem;//Mega Bytes
     [SerializeField]
-    int m_targetMaxAudioMemory;
+    int m_maxAudioMem;//Mega Bytes
     [SerializeField]
-    int m_targetMaxAnimationMemory;
+    int m_maxAnimMem;//Mega Bytes
     [SerializeField]
-    int m_targetMaxMaterialMemory;
+    int m_maxMatMem;//Mega Bytes
 
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -60,11 +59,13 @@ public class MemoryDebugInfo: MonoBehaviour {
     int m_peakAlloc               = 0;
 
     //Profiler
-    int m_allocMeshMemory     = 0;
-    int m_allocTextureMemory  = 0;
-    int m_allocAudioMemory    = 0;
-    int m_allocAnimationMemory= 0;
-    int m_allocMaterialMemory = 0;
+    int m_allocMeshMem      = 0;
+    int m_allocTexMem       = 0;
+    int m_allocAudioMem     = 0;
+    int m_allocAnimMem      = 0;
+    int m_allocMaterialMem  = 0;
+
+    const float TO_BYTE = 1024f * 1024f;
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -87,14 +88,12 @@ public class MemoryDebugInfo: MonoBehaviour {
 
         //We want to know the exact frame rate when the garbage collection happened, so need to do this every frame
         bool updated = UpdateGCCollectionCount();
-
         if (updated) {
             m_collectionFrequency = Time.realtimeSinceStartup - m_lastCollectTime;
             m_lastCollectTime = Time.realtimeSinceStartup;
             m_lastDeltaTime = Time.deltaTime;
             m_allocMemAfterCollection = m_allocMem;
         }
-
 
         if (Time.realtimeSinceStartup - m_lastUpdateTime <= m_updateFrequency) 
             return;
@@ -114,23 +113,37 @@ public class MemoryDebugInfo: MonoBehaviour {
 #if ENABLE_PROFILER
         if (!m_useProfiler)
             return;
-        m_allocTextureMemory = GetRuntimeMemorySize(typeof(Texture));
-        m_allocMeshMemory = GetRuntimeMemorySize(typeof(Mesh));
-        m_allocAudioMemory = GetRuntimeMemorySize(typeof(AudioClip));
-        m_allocAnimationMemory = GetRuntimeMemorySize(typeof(Animation));
-        m_allocMaterialMemory = GetRuntimeMemorySize(typeof(Material));
+        m_allocTexMem = GetRuntimeMemorySize(typeof(Texture));
+        m_allocMeshMem = GetRuntimeMemorySize(typeof(Mesh));
+        m_allocAudioMem = GetRuntimeMemorySize(typeof(AudioClip));
+        m_allocAnimMem = GetRuntimeMemorySize(typeof(Animation));
+        m_allocMaterialMem = GetRuntimeMemorySize(typeof(Material));
 #endif
-
     }
+
 //---------------------------------------------------------------------------------------------------------------------
 
-    static int GetRuntimeMemorySize(System.Type type) {
-        int ret = 0;
-        Object[] objects = Resources.FindObjectsOfTypeAll(type);
-        for (int i=0; i < objects.Length; ++i) {
-            ret += Profiler.GetRuntimeMemorySize(objects[i]);
-        }
-        return ret;
+    bool IsMemoryOverused() {
+        if (m_allocMem > m_maxMem * TO_BYTE)
+            return true;
+
+#if ENABLE_PROFILER
+        if (!m_useProfiler)
+            return false;
+
+        if (m_allocMeshMem > m_maxMeshMem * TO_BYTE)
+            return true;
+        if (m_allocTexMem > m_maxTexMem * TO_BYTE)
+            return true;
+        if (m_allocMaterialMem > m_maxMatMem * TO_BYTE)
+            return true;
+        if (m_allocAudioMem > m_maxAudioMem * TO_BYTE)
+            return true;
+        if (m_allocAnimMem > m_maxAnimMem * TO_BYTE)
+            return true;
+#endif
+
+        return false;
     }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -152,11 +165,17 @@ public class MemoryDebugInfo: MonoBehaviour {
 
 //---------------------------------------------------------------------------------------------------------------------
     void OnGUI() {
+
         if (!m_show) {
             return;
         }
+
+        if (IsMemoryOverused()) {
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), m_warningTexture);
+        }
+
         StringBuilder text = new StringBuilder();
-        text.AppendStrings("Currently allocated			", ToMB(m_allocMem), "MB\n");
+        text.AppendStrings("Currently allocated			", ToMB(m_allocMem), "MB. Max: ", m_maxMem.ToString(), "MB\n");
         text.AppendStrings("Peak allocated:				", ToMB(m_peakAlloc), "MB ( Allocated ");
         text.AppendStrings("after collection: ", ToMB(m_allocMemAfterCollection), " MB)\n");
         text.AppendStrings("Allocation rate				", ToMB(m_allocRate), "MB\n");
@@ -171,11 +190,11 @@ public class MemoryDebugInfo: MonoBehaviour {
         //profiler
         if (m_useProfiler) 
         {
-            text.AppendStrings("Mesh:			", ToMB(m_allocMeshMemory), "MB\n");
-            text.AppendStrings("Texture			", ToMB(m_allocTextureMemory), "MB\n");
-            text.AppendStrings("AudioClip:		", ToMB(m_allocAudioMemory), "MB\n");
-            text.AppendStrings("Animation:		", ToMB(m_allocAnimationMemory), "MB\n");
-            text.AppendStrings("Material:		", ToMB(m_allocMaterialMemory), "MB\n");
+            text.AppendStrings("Mesh:		", ToMB(m_allocMeshMem), "MB. Max: ", m_maxMeshMem.ToString(),"MB\n");
+            text.AppendStrings("Texture		", ToMB(m_allocTexMem), "MB. Max: ", m_maxTexMem.ToString(), "MB\n");
+            text.AppendStrings("AudioClip:	", ToMB(m_allocAudioMem), "MB. Max: ", m_maxAudioMem.ToString(), "MB\n");
+            text.AppendStrings("Animation:	", ToMB(m_allocAnimMem), "MB. Max: ", m_maxAnimMem.ToString(), "MB\n");
+            text.AppendStrings("Material:	", ToMB(m_allocMaterialMem), "MB. Max: ", m_maxMatMem.ToString(), "MB\n");
         }
 
         GUI.Box(new Rect(5, 5, 500, 160 + (m_showFPS ? 16 : 0)), "");
@@ -185,9 +204,19 @@ public class MemoryDebugInfo: MonoBehaviour {
 //---------------------------------------------------------------------------------------------------------------------
 
     static string ToMB(int bytes) {
-        return (bytes / 1000000F).ToString("0");
+        return (bytes / TO_BYTE).ToString("0");
     }
 
+//---------------------------------------------------------------------------------------------------------------------
+
+    static int GetRuntimeMemorySize(System.Type type) {
+        int ret = 0;
+        Object[] objects = Resources.FindObjectsOfTypeAll(type);
+        for (int i=0; i < objects.Length; ++i) {
+            ret += Profiler.GetRuntimeMemorySize(objects[i]);
+        }
+        return ret;
+    }
 //---------------------------------------------------------------------------------------------------------------------
  
 }
