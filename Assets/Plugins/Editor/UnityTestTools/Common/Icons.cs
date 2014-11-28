@@ -10,7 +10,7 @@ namespace UnityTest
     public static class Icons
     {
         const string k_IconsFolderName = "icons";
-        private static readonly string k_IconsFolderPath = String.Format("UnityTestTools{0}Common{0}Editor{0}{1}", Path.DirectorySeparatorChar, k_IconsFolderName);
+        private static readonly string k_IconsFolderPath = String.Format("Editor{0}UnityTestTools{0}Common{0}{1}", Path.DirectorySeparatorChar, k_IconsFolderName);
 
         private static readonly string k_IconsAssetsPath = "";
 
