@@ -65,11 +65,30 @@ public class NetworkClientController : MonoBehaviour {
 
     void OnGUI() {
         GUI.Label(new Rect(10, 10, 150, 30), "Message: ");
-        m_message = GUI.TextField(new Rect(10, 30, 150, 30), m_message);
-        if (GUI.Button(new Rect(160, 30, 150, 30),"Send to server")) {
+
+        string send_control_name = "SendToServer";
+
+        GUI.SetNextControlName(send_control_name);
+        m_message = GUI.TextField(new Rect(10, 30, 100, 30), m_message);
+        Event e = Event.current;
+        if (GUI.Button(new Rect(115, 30, 100, 30), "Send to server") 
+            || IsKeyPressed(e, KeyCode.Return, send_control_name)) 
+        {
             SendToServer(m_message);
+            m_message = "";
         }
+
     }
+
+//---------------------------------------------------------------------------------------------------------------------
+    bool IsKeyPressed(Event e, KeyCode keyCode, string controlName) {
+        if (e.isKey && e.keyCode == keyCode && GUI.GetNameOfFocusedControl() == controlName) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 //---------------------------------------------------------------------------------------------------------------------
 
