@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
-public class NetworkServerController : MonoBehaviour {
+public class TcpServerController : MonoBehaviour {
 
     const int MAX_CONNECTIONS = 32;
 
-    NetworkServer m_server = null;
+    TcpServer m_server = null;
     LinkedList<TcpClient> m_tcpClients = new LinkedList<TcpClient>();
     List<TcpClient> m_disconnectedClients = new List<TcpClient>();
     byte[] m_receiveBuffer = null;
@@ -19,7 +19,7 @@ public class NetworkServerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_server = new NetworkServer();
+        m_server = new TcpServer();
         m_server.StartServer();
         m_server.ClientAccepted = OnClientAccepted;
 
