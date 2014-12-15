@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using UnityEngine;
 using System.Text;
 
-public class NetworkClientController : MonoBehaviour {
+public class TcpClientController : MonoBehaviour {
 
     const float TIMEOUT = 5; //5 seconds.
 
@@ -103,7 +103,7 @@ public class NetworkClientController : MonoBehaviour {
     {
         Debug.Log("Client says: Client connected to server");
 
-        NetworkClientController client_controller = (NetworkClientController)result.AsyncState;
+        TcpClientController client_controller = (TcpClientController)result.AsyncState;
         client_controller.m_networkStatus = NetworkPeerType.Client;
         client_controller.m_tcpClient.EndConnect(result);
 

@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 
-public class NetworkServer {
+public class TcpServer {
 
     TcpListener m_tcpServer = null;
 
