@@ -84,7 +84,7 @@ GameObject:
   - 4: {fileID: 212200512}
   - 114: {fileID: 212200511}
   m_Layer: 0
-  m_Name: NetworkClient
+  m_Name: TcpClient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ GameObject:
   - 4: {fileID: 484773542}
   - 114: {fileID: 484773541}
   m_Layer: 0
-  m_Name: NetworkServer
+  m_Name: TcpServer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +164,7 @@ GameObject:
   - 92: {fileID: 1905010522}
   - 124: {fileID: 1905010521}
   - 81: {fileID: 1905010520}
+  - 114: {fileID: 1905010525}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -236,3 +237,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1905010525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1905010519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f2858582db0984dbb963aadd1b6fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_client: {fileID: 212200511}
+  m_server: {fileID: 484773541}

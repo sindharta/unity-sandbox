@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
 using System;
 
-public class TcpServer {
+public class TcpListenerThread {
 
-    TcpListener m_tcpServer = null;
+    TcpListener m_tcpListener = null;
 
     bool m_stopRequested = false;
 
@@ -13,17 +12,16 @@ public class TcpServer {
 
 
 //---------------------------------------------------------------------------------------------------------------------
-    public void StartServer() {
-        IPAddress local_addr = IPAddress.Parse("127.0.0.1");
-        m_tcpServer = new TcpListener(local_addr, Constants.NETWORK_PORT);
-        m_tcpServer.Start();
+    public TcpListenerThread(IPAddress ipAddress, int port) {
+        m_tcpListener = new TcpListener(ipAddress, port);
     }
 
 //---------------------------------------------------------------------------------------------------------------------
 
     public void StartListen() {
+        m_tcpListener.Start();
         while (!m_stopRequested) {
-            TcpClient client = m_tcpServer.AcceptTcpClient();
+            TcpClient client = m_tcpListener.AcceptTcpClient();
             if (null!=ClientAccepted) {
                 ClientAccepted(client);
             }
@@ -34,7 +32,7 @@ public class TcpServer {
 //---------------------------------------------------------------------------------------------------------------------
 
     public void RequestStop() {
-        m_tcpServer.Stop();
+        m_tcpListener.Stop();
         m_stopRequested = true;
     }
 
