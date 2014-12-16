@@ -4,26 +4,26 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using System.Net;
 
 public class TcpServerController : MonoBehaviour {
 
     const int MAX_CONNECTIONS = 32;
 
-    TcpServer m_server = null;
+    TcpListenerThread m_listenerThread = null;
     LinkedList<TcpClient> m_tcpClients = new LinkedList<TcpClient>();
     List<TcpClient> m_disconnectedClients = new List<TcpClient>();
     byte[] m_receiveBuffer = null;
-    string m_messageFromClient;
+    string m_clientMessage;
 
 //---------------------------------------------------------------------------------------------------------------------
 
     // Use this for initialization
     void Start () {
-        m_server = new TcpServer();
-        m_server.StartServer();
-        m_server.ClientAccepted = OnClientAccepted;
+        m_listenerThread = new TcpListenerThread(IPAddress.Loopback, Constants.NETWORK_PORT);
+        m_listenerThread.ClientAccepted = OnClientAccepted;
 
-        Thread thread = new Thread(new ThreadStart(m_server.StartListen));
+        Thread thread = new Thread(new ThreadStart(m_listenerThread.StartListen));
         thread.Start();
     }
 
@@ -44,9 +44,9 @@ public class TcpServerController : MonoBehaviour {
 
                 Array.Clear(m_receiveBuffer, 0, m_receiveBuffer.Length);
                 stream.Read(m_receiveBuffer, 0, (int) curTcpClient.ReceiveBufferSize);
-                m_messageFromClient = Encoding.UTF8.GetString(m_receiveBuffer);
+                m_clientMessage = Encoding.UTF8.GetString(m_receiveBuffer);
 
-                Debug.Log("The client says this: " + m_messageFromClient);
+                Debug.Log("The client says this: " + m_clientMessage);
 
             }
         }
@@ -64,14 +64,7 @@ public class TcpServerController : MonoBehaviour {
 //---------------------------------------------------------------------------------------------------------------------
 
     void OnDestroy() {
-        m_server.RequestStop();
-    }
-
-//---------------------------------------------------------------------------------------------------------------------
-
-    void OnGUI() {
-        GUI.Label(new Rect(10, 100, 300, 100), "Message received in the server: ");
-        GUI.Label(new Rect(10, 120, 300, 100), m_messageFromClient);
+        m_listenerThread.RequestStop();
     }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -91,5 +84,12 @@ public class TcpServerController : MonoBehaviour {
 
         m_tcpClients.AddLast(client);
     }
+
+//---------------------------------------------------------------------------------------------------------------------
+
+    public string GetClientMessage() {
+        return m_clientMessage;
+    }
+
 
 }

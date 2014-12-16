@@ -10,7 +10,6 @@ public class TcpClientController : MonoBehaviour {
     NetworkPeerType m_networkStatus = NetworkPeerType.Disconnected;
     TcpClient m_tcpClient = null;
     float m_beginConnectTime = 0;
-    string m_message="";
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -63,36 +62,10 @@ public class TcpClientController : MonoBehaviour {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-    void OnGUI() {
-        GUI.Label(new Rect(10, 10, 150, 30), "Message: ");
-
-        string send_control_name = "SendToServer";
-
-        GUI.SetNextControlName(send_control_name);
-        m_message = GUI.TextField(new Rect(10, 30, 100, 30), m_message);
-        Event e = Event.current;
-        if (GUI.Button(new Rect(115, 30, 100, 30), "Send to server") 
-            || IsKeyPressed(e, KeyCode.Return, send_control_name)) 
-        {
-            SendToServer(m_message);
-            m_message = "";
-        }
-
-    }
-
-//---------------------------------------------------------------------------------------------------------------------
-    bool IsKeyPressed(Event e, KeyCode keyCode, string controlName) {
-        if (e.isKey && e.keyCode == keyCode && GUI.GetNameOfFocusedControl() == controlName) {
-            return true;
-        }
-
-        return false;
-    }
-
 
 //---------------------------------------------------------------------------------------------------------------------
 
-    void SendToServer(string message) {
+    public void SendToServer(string message) {
         NetworkStream stream = m_tcpClient.GetStream();
         Byte[] send_bytes = Encoding.UTF8.GetBytes(message);
         stream.Write(send_bytes, 0, send_bytes.Length);
