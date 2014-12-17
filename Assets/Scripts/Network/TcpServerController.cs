@@ -20,7 +20,7 @@ public class TcpServerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_listenerThread = new TcpListenerThread(IPAddress.Loopback, Constants.NETWORK_PORT);
+        m_listenerThread = new TcpListenerThread(IPAddress.Loopback, Constants.NETWORK_TCP_PORT);
         m_listenerThread.ClientAccepted = OnClientAccepted;
 
         Thread thread = new Thread(new ThreadStart(m_listenerThread.StartListen));
