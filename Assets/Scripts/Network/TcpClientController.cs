@@ -24,7 +24,7 @@ public class TcpClientController : MonoBehaviour {
         switch (m_networkStatus) {
             case NetworkPeerType.Disconnected:  {
                 AsyncCallback callback = new AsyncCallback(ConnectCallback);
-                m_tcpClient.BeginConnect("127.0.0.1", Constants.NETWORK_PORT, callback, this);
+                m_tcpClient.BeginConnect("127.0.0.1", Constants.NETWORK_TCP_PORT, callback, this);
                 m_networkStatus = NetworkPeerType.Connecting;
                 m_beginConnectTime = Time.realtimeSinceStartup;
                 break;
