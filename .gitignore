@@ -23,7 +23,7 @@ Build/**
 
 # UnityVS files
 *.DotSettings
-Assets/UnityVS/Editor/UnityVS.VersionSpecific.*
+Assets/Standard Assets/Editor/UnityVS*
 
 # UnityTestTools setting files
 Assets/Plugins/UnityTestTools/Common/Settings/
