@@ -213,7 +213,7 @@ public class MemoryDebugInfo: MonoBehaviour {
         int ret = 0;
         Object[] objects = Resources.FindObjectsOfTypeAll(type);
         for (int i=0; i < objects.Length; ++i) {
-            ret += Profiler.GetRuntimeMemorySize(objects[i]);
+            ret += UnityEngine.Profiling.Profiler.GetRuntimeMemorySize(objects[i]);
         }
         return ret;
     }

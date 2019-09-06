@@ -7,7 +7,7 @@ public class TcpClientController : MonoBehaviour {
 
     const float TIMEOUT = 5; //5 seconds.
 
-    NetworkPeerType m_networkStatus = NetworkPeerType.Disconnected;
+    NetworkStatus m_networkStatus = NetworkStatus.Disconnected;
     TcpClient m_tcpClient = null;
     float m_beginConnectTime = 0;
 
@@ -22,31 +22,27 @@ public class TcpClientController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         switch (m_networkStatus) {
-            case NetworkPeerType.Disconnected:  {
+            case NetworkStatus.Disconnected:  {
                 AsyncCallback callback = new AsyncCallback(ConnectCallback);
                 m_tcpClient.BeginConnect("127.0.0.1", Constants.NETWORK_TCP_PORT, callback, this);
-                m_networkStatus = NetworkPeerType.Connecting;
+                m_networkStatus = NetworkStatus.Connecting;
                 m_beginConnectTime = Time.realtimeSinceStartup;
                 break;
             }
-            case NetworkPeerType.Connecting: {
+            case NetworkStatus.Connecting: {
 
                 //Untested !!!
                 if (Time.realtimeSinceStartup - m_beginConnectTime > TIMEOUT) {
                     m_tcpClient.Close();
-                    m_networkStatus = NetworkPeerType.Disconnected;
+                    m_networkStatus = NetworkStatus.Disconnected;
                 }
 
                 break;
             }
-            case NetworkPeerType.Client: {
+            case NetworkStatus.StartToConnect: {
                 if (m_tcpClient.IsDisconnected()) {
-                    m_networkStatus = NetworkPeerType.Disconnected;
+                    m_networkStatus = NetworkStatus.Disconnected;
                 }
-                break;
-            }
-            case NetworkPeerType.Server: {
-                Debug.LogError("Should not be here because this gameobject is not a server");
                 break;
             }
         }
@@ -77,7 +73,7 @@ public class TcpClientController : MonoBehaviour {
         Debug.Log("Client says: Client connected to server");
 
         TcpClientController client_controller = (TcpClientController)result.AsyncState;
-        client_controller.m_networkStatus = NetworkPeerType.Client;
+        client_controller.m_networkStatus = NetworkStatus.StartToConnect;
         client_controller.m_tcpClient.EndConnect(result);
 
         client_controller.SendToServer("Are you there, server ?");
