@@ -11,6 +11,7 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+/.vs/**
 Assets/*.pidb
 Assets/*.pidb.meta
 Build/*.*
@@ -21,10 +22,5 @@ Output/*.*
 # Build
 Build/**
 
-# UnityVS files
-*.DotSettings
-Assets/Standard Assets/Editor/UnityVS*
-
-# UnityTestTools setting files
-Assets/Plugins/UnityTestTools/Common/Settings/
-Assets/Plugins/UnityTestTools/Common/Settings.meta
+# Logs
+Logs/**
