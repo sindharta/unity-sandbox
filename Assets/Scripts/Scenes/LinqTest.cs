@@ -52,43 +52,43 @@ public class LinqTest : MonoBehaviour {
 	void Update () {
         
         for (int i=0;i<m_loop;++i) {
-            Profiler.BeginSample("Simple"); 
+            UnityEngine.Profiling.Profiler.BeginSample("Simple"); 
             var enumerator = m_list.GetEnumerator();
             while (enumerator.MoveNext()) {
                 if (enumerator.Current  == m_searchElement) {
                     break;
                 }
             }
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
             
-            Profiler.BeginSample("LinqConstant");
+            UnityEngine.Profiling.Profiler.BeginSample("LinqConstant");
             m_list.FirstOrDefault((e) => { return e == 3; } );
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
             
-            Profiler.BeginSample("LinqParameter"); 
+            UnityEngine.Profiling.Profiler.BeginSample("LinqParameter"); 
             m_list.FirstOrDefault((e) => { return e == m_searchElement; } );
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
 
-            Profiler.BeginSample("LinqWithPredefinedFunc");
+            UnityEngine.Profiling.Profiler.BeginSample("LinqWithPredefinedFunc");
             m_list.FirstOrDefault( IsElementEqual );
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
 
-            Profiler.BeginSample("LambdaParameter");
+            UnityEngine.Profiling.Profiler.BeginSample("LambdaParameter");
             m_list.MyFirstOrDefault((e) => { return e == m_searchElement; } );
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
             
-            Profiler.BeginSample("LambdaWithPredefinedFunc");
+            UnityEngine.Profiling.Profiler.BeginSample("LambdaWithPredefinedFunc");
             m_list.MyFirstOrDefault(IsElementEqual);
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
 
-            Profiler.BeginSample("LambdaSimple");
+            UnityEngine.Profiling.Profiler.BeginSample("LambdaSimple");
             int _x = 1;
             System.Action x = () => { _x = m_searchElement; }; x();
-            Profiler.EndSample(); 
+            UnityEngine.Profiling.Profiler.EndSample(); 
 
-            Profiler.BeginSample("CustomFunc");
+            UnityEngine.Profiling.Profiler.BeginSample("CustomFunc");
             m_list.IntFirstOrDefault(m_searchElement);
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
         }
         
 	}

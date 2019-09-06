@@ -112,10 +112,10 @@ public class StringTest : MonoBehaviour {
     {
         GC.Collect();
         float time_start = Time.realtimeSinceStartup;
-        uint mem_start = Profiler.GetMonoUsedSize();
+        uint mem_start = UnityEngine.Profiling.Profiler.GetMonoUsedSize();
         testFunc ();
         float time_end = Time.realtimeSinceStartup;
-        uint mem_end  = Profiler.GetMonoUsedSize();
+        uint mem_end  = UnityEngine.Profiling.Profiler.GetMonoUsedSize();
         timeResult = time_end - time_start;
         memResult = 0;
         if (mem_end > mem_start) { //validity check

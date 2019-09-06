@@ -38,18 +38,18 @@ public class DictionaryAndListTest : MonoBehaviour {
         
         for (int i=0;i<m_numSearchesPerUpdate;++i) {
             uint id = (uint) Random.Range (0,(int)NUM_DATA);
-            Profiler.BeginSample("List");
+            UnityEngine.Profiling.Profiler.BeginSample("List");
             HeroData listData = GetDataFromList(id);
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
             
-            Profiler.BeginSample("Int Dictionary");
+            UnityEngine.Profiling.Profiler.BeginSample("Int Dictionary");
             HeroData intDicData = m_dataUintDictionary[id];
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
 
             string idStr = id.ToString();
-            Profiler.BeginSample("String Dictionary");
+            UnityEngine.Profiling.Profiler.BeginSample("String Dictionary");
             HeroData stringDicData = m_dataStringDictionary[idStr];
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
         }
         
 	
