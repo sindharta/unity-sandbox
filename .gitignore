@@ -11,12 +11,13 @@
 /*.userprefs
 /*.pidb
 /*.booproj
-/.vs/**
+**/.vs/**
 Assets/*.pidb
 Assets/*.pidb.meta
 Build/*.*
 External/*/bin/*
 External/**/*.mdb
+External/**/Debug/*
 Output/*.*
 
 # Build
