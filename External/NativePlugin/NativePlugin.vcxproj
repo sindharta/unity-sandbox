@@ -104,8 +104,11 @@
       <Message>Nothing</Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(OutputPath)\..\..\DLL\$(TargetFileName) 
-copy $(TargetPath) $(OutputPath)\..\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
+      <Command>echo copying to $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+
+echo copying to $(TargetPath) $(ProjectDir)\..\..\Assets\Plugin\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,6 +124,13 @@ copy $(TargetPath) $(OutputPath)\..\..\..\Assets\Plugins\DLL\$(TargetFileName) <
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>echo copying to $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+
+echo copying to $(TargetPath) $(ProjectDir)\..\..\Assets\Plugin\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -146,8 +156,11 @@ copy $(TargetPath) $(OutputPath)\..\..\..\Assets\Plugins\DLL\$(TargetFileName) <
       <Message>Nothing</Message>
     </CustomBuildStep>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) $(OutputPath)\..\..\DLL\$(TargetFileName) 
-copy $(TargetPath) $(OutputPath)\..\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
+      <Command>echo copying to $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+
+echo copying to $(TargetPath) $(ProjectDir)\..\..\Assets\Plugin\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,8 +180,16 @@ copy $(TargetPath) $(OutputPath)\..\..\..\Assets\Plugins\DLL\$(TargetFileName) <
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>echo copying to $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\DLL\$(TargetFileName) 
+
+echo copying to $(TargetPath) $(ProjectDir)\..\..\Assets\Plugin\DLL\$(TargetFileName) 
+copy $(TargetPath) $(ProjectDir)\..\..\Assets\Plugins\DLL\$(TargetFileName) </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="NativePlugin.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
