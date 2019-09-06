@@ -3,10 +3,10 @@
 public class TcpTest : MonoBehaviour {
 
     [SerializeField]
-    TcpClientController m_client;
+    TcpClientController m_client = null;
 
     [SerializeField]
-    TcpServerController m_server;
+    TcpServerController m_server = null;
 
 //---------------------------------------------------------------------------------------------------------------------
 
