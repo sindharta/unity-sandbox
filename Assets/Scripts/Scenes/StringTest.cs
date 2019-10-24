@@ -15,9 +15,9 @@ public class StringTest : MonoBehaviour {
 	float[] m_stringFormatTime;
 	float[] m_stringBuilderTime;
 
-    uint[] m_concatStringMemory;
-    uint[] m_stringFormatMemory;
-    uint[] m_stringBuilderMemory;
+    long[] m_concatStringMemory;
+    long[] m_stringFormatMemory;
+    long[] m_stringBuilderMemory;
 
 	string[] m_data;
 
@@ -27,9 +27,9 @@ public class StringTest : MonoBehaviour {
 		m_stringFormatTime = new float[MAX_DATA_COUNT];
 		m_stringBuilderTime = new float[MAX_DATA_COUNT];
 
-        m_concatStringMemory = new uint[MAX_DATA_COUNT];
-        m_stringFormatMemory = new uint[MAX_DATA_COUNT];
-        m_stringBuilderMemory = new uint[MAX_DATA_COUNT];
+        m_concatStringMemory = new long[MAX_DATA_COUNT];
+        m_stringFormatMemory = new long[MAX_DATA_COUNT];
+        m_stringBuilderMemory = new long[MAX_DATA_COUNT];
 
 		//prepare the data, use 1 digit of integers to compare more easily
 		m_data = new string[MAX_DATA_COUNT];
@@ -108,14 +108,14 @@ public class StringTest : MonoBehaviour {
 	}
 
     void ProfileTest(System.Action testFunc, out float timeResult, 
-                     out uint memResult) 
+                     out long memResult) 
     {
         GC.Collect();
         float time_start = Time.realtimeSinceStartup;
-        uint mem_start = UnityEngine.Profiling.Profiler.GetMonoUsedSize();
+        long mem_start = UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong();
         testFunc ();
         float time_end = Time.realtimeSinceStartup;
-        uint mem_end  = UnityEngine.Profiling.Profiler.GetMonoUsedSize();
+        long mem_end  = UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong();
         timeResult = time_end - time_start;
         memResult = 0;
         if (mem_end > mem_start) { //validity check

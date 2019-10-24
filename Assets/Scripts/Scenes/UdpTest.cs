@@ -4,11 +4,8 @@ using System.Net;
 
 public class UdpTest : MonoBehaviour {
 
-    [SerializeField]
-    UdpServerController m_udpServer;
-
-    [SerializeField]
-    UdpClientController m_udpClient;
+    [SerializeField] UdpServerController m_udpServer = null;
+    [SerializeField] UdpClientController m_udpClient = null;
 
 //---------------------------------------------------------------------------------------------------------------------
 
