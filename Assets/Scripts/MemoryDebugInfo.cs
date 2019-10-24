@@ -16,32 +16,19 @@ From: http://wiki.unity3d.com/index.php/AllocationStats
 [ExecuteInEditMode()]
 public class MemoryDebugInfo: MonoBehaviour {
 
-    [SerializeField]
-    bool m_show = true;
-    [SerializeField]
-    bool m_showFPS = false;
-    [SerializeField]
-    float m_updateFrequency = 0.3f;
+    [SerializeField] bool m_show = true;
+    [SerializeField] bool m_showFPS = false;
+    [SerializeField] float m_updateFrequency = 0.3f;
 
-    [SerializeField]
-    float m_maxMem; //Mega Bytes
-    [SerializeField]
-    Texture m_warningTexture;
+    [SerializeField] float m_maxMem = 8000; //Mega Bytes
+    [SerializeField] Texture m_warningTexture = null;
 
-    //Profiler features (Unity Pro feature)
-    [SerializeField]
-    bool m_useProfiler = false;
-    [SerializeField]
-    int m_maxMeshMem;  //Mega Bytes
-    [SerializeField]
-    int m_maxTexMem;//Mega Bytes
-    [SerializeField]
-    int m_maxAudioMem;//Mega Bytes
-    [SerializeField]
-    int m_maxAnimMem;//Mega Bytes
-    [SerializeField]
-    int m_maxMatMem;//Mega Bytes
-
+    [SerializeField] bool m_useProfiler = false;
+    [SerializeField] int m_maxMeshMem = 1000;  //Mega Bytes
+    [SerializeField] int m_maxTexMem  = 1000;//Mega Bytes
+    [SerializeField] int m_maxAudioMem = 1000;//Mega Bytes
+    [SerializeField] int m_maxAnimMem = 1000;//Mega Bytes
+    [SerializeField] int m_maxMatMem = 1000;//Mega Bytes
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -59,11 +46,11 @@ public class MemoryDebugInfo: MonoBehaviour {
     int m_peakAlloc               = 0;
 
     //Profiler
-    int m_allocMeshMem      = 0;
-    int m_allocTexMem       = 0;
-    int m_allocAudioMem     = 0;
-    int m_allocAnimMem      = 0;
-    int m_allocMaterialMem  = 0;
+    long m_allocMeshMem      = 0;
+    long m_allocTexMem       = 0;
+    long m_allocAudioMem     = 0;
+    long m_allocAnimMem      = 0;
+    long m_allocMaterialMem  = 0;
 
     const float TO_BYTE = 1024f * 1024f;
 
@@ -110,7 +97,6 @@ public class MemoryDebugInfo: MonoBehaviour {
         m_lastUpdateTime = Time.realtimeSinceStartup;
 
 
-#if ENABLE_PROFILER
         if (!m_useProfiler)
             return;
         m_allocTexMem = GetRuntimeMemorySize(typeof(Texture));
@@ -118,7 +104,6 @@ public class MemoryDebugInfo: MonoBehaviour {
         m_allocAudioMem = GetRuntimeMemorySize(typeof(AudioClip));
         m_allocAnimMem = GetRuntimeMemorySize(typeof(Animation));
         m_allocMaterialMem = GetRuntimeMemorySize(typeof(Material));
-#endif
     }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -203,17 +188,17 @@ public class MemoryDebugInfo: MonoBehaviour {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-    static string ToMB(int bytes) {
+    static string ToMB(long bytes) {
         return (bytes / TO_BYTE).ToString("0");
     }
 
 //---------------------------------------------------------------------------------------------------------------------
 
-    static int GetRuntimeMemorySize(System.Type type) {
-        int ret = 0;
+    static long GetRuntimeMemorySize(System.Type type) {
+        long ret = 0;
         Object[] objects = Resources.FindObjectsOfTypeAll(type);
         for (int i=0; i < objects.Length; ++i) {
-            ret += UnityEngine.Profiling.Profiler.GetRuntimeMemorySize(objects[i]);
+            ret += UnityEngine.Profiling.Profiler.GetRuntimeMemorySizeLong(objects[i]);
         }
         return ret;
     }

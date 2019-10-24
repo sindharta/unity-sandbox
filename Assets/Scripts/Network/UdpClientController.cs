@@ -4,8 +4,7 @@ using System.Text;
 using UnityEngine;
 
 class UdpClientController : UdpBaseController {
-    [SerializeField]
-    string m_serverIP;
+    [SerializeField] string m_serverIP= null;
 
     UdpClient m_client;
 

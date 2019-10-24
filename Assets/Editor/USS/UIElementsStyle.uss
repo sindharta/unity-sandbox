@@ -1,0 +1,36 @@
+.buttons-container {
+    /* Populates the elements in this container horizontally. */
+    flex-direction: row;
+    /* Makes the content of the container wrap when resized. */
+    flex-wrap: wrap;
+}
+
+
+/*------------------------------------------- UIElement Buttons----------------------------------------------------- */
+
+.uielement-button {
+    width: 50px;
+    height: 50px;
+    /* Style rule that aligns items on the horizontal axis. */
+    align-items: flex-start;
+    /* Style rule that aligns items on the vertical axis. */
+    justify-content: center;
+}
+
+/* How the icon should behave when its parent button is clicked. */
+.uielement-button:active > .quicktool-button-icon {
+    opacity: 0.6;
+}
+
+/*------------------------------------------- UIElement Icons ------------------------------------------------------ */
+.uielement-button-icon {
+    height: 40px;
+    width: 40px;
+    opacity: 0.8;
+}
+
+/* How the icon should behave when hovered. */
+.uielement-button-icon:hover {
+    opacity: 1;
+}
+
