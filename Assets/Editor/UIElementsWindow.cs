@@ -1,4 +1,5 @@
-﻿using System;
+﻿using org.shin.utilities;
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -54,19 +55,10 @@ public class UIElementsWindow : EditorWindow
         buttonIcon.style.backgroundImage = iconAsset;
 
         // Instantiates our primitive object on a left click.
-        button.clickable.clicked += () => CreatePrimitiveObject(button.parent.name);
+        button.clickable.clicked += () => UnityEditorUtility.CreatePrimitiveObject(button.parent.name);
 
         // Sets a basic tooltip to the button itself.
         button.tooltip = button.parent.name;
-    }
-
-//---------------------------------------------------------------------------------------------------------------------
-
-    //[TODO-sin: 2019-10-24] Move to another package
-    private void CreatePrimitiveObject(string primitiveTypeName) {    
-        PrimitiveType pt = (PrimitiveType) Enum.Parse (typeof(PrimitiveType), primitiveTypeName, true);
-        GameObject go = ObjectFactory.CreatePrimitive(pt);
-        go.transform.position = Vector3.zero;
     }
 
 //---------------------------------------------------------------------------------------------------------------------
