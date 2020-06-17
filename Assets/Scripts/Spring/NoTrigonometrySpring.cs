@@ -8,7 +8,7 @@ public class NoTrigonometrySpring : MonoBehaviour {
 
     void Start() {
 
-        m_velocity = new Vector3(m_waveSize, 0f, 0f);
+        m_velocity = new Vector3(m_springSize, 0f, 0f);
     }
     
 //----------------------------------------------------------------------------------------------------------------------    
@@ -21,7 +21,7 @@ public class NoTrigonometrySpring : MonoBehaviour {
         //d(sin(x)) = cos(x) * dt
         //d(cos(x)) = -sin(x) * dt
         
-        //Then, from TrigonometrySpring: pos.x = Mathf.Sin(Time.time) * m_waveSize;        
+        //Then, from TrigonometrySpring: pos.x = Mathf.Sin(Time.time) * m_springSize;        
         m_velocity.x += -pos.x * Time.deltaTime;
 
         pos.x += m_velocity.x * Time.deltaTime;
@@ -31,7 +31,7 @@ public class NoTrigonometrySpring : MonoBehaviour {
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
-    [SerializeField] private float m_waveSize = 10;
+    [SerializeField] private float m_springSize = 10;
 
     private Vector3 m_velocity;
     private Transform m_transform = null;
