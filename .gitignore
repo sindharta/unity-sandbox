@@ -19,6 +19,7 @@ External/*/bin/*
 External/**/*.mdb
 External/**/Debug/*
 Output/*.*
+.idea/**
 
 # Build
 Build/**
