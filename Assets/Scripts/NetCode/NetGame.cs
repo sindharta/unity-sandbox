@@ -25,7 +25,7 @@ public class NetGame : ComponentSystem
     {
         // Destroy singleton to prevent system from running again
         EntityManager.DestroyEntity(GetSingletonEntity<InitGameComponent>());
-        foreach (var world in World.AllWorlds)
+        foreach (World world in World.All)
         {
             var network = world.GetExistingSystem<NetworkStreamReceiveSystem>();
             if (world.GetExistingSystem<ClientSimulationSystemGroup>() != null)
