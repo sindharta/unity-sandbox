@@ -52,27 +52,23 @@ public class NetGame : ComponentSystem
 
 
 [BurstCompile]
-public struct GoInGameRequest : IRpcCommand
-{
-    public void Deserialize(ref DataStreamReader reader)
-    {
+public struct GoInGameRequest : IRpcCommand {
+    public void Deserialize(ref DataStreamReader reader) { }
+
+    public void Serialize(ref DataStreamWriter writer) { }
+    
+    [BurstCompile]
+    private static void InvokeExecute(ref RpcExecutor.Parameters parameters) {
+        RpcExecutor.ExecuteCreateRequestComponent<GoInGameRequest>(ref parameters);
     }
 
-    public void Serialize(ref DataStreamWriter writer)
-    {
-    }
-    [BurstCompile]
-    private static void InvokeExecute(ref RpcExecutor.Parameters parameters)
-    {
-        RpcExecutor.ExecuteCreateRequestComponent<GoInGameRequest>(ref parameters);
+    public PortableFunctionPointer<RpcExecutor.ExecuteDelegate> CompileExecute() {
+        return InvokeExecuteFunctionPointer;
     }
 
     static PortableFunctionPointer<RpcExecutor.ExecuteDelegate> InvokeExecuteFunctionPointer =
         new PortableFunctionPointer<RpcExecutor.ExecuteDelegate>(InvokeExecute);
-    public PortableFunctionPointer<RpcExecutor.ExecuteDelegate> CompileExecute()
-    {
-        return InvokeExecuteFunctionPointer;
-    }
+    
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -139,7 +135,7 @@ public class SampleCubeInput : ComponentSystem
 
     protected override void OnUpdate()
     {
-        var localInput = GetSingleton<CommandTargetComponent>().targetEntity;
+        Entity localInput = GetSingleton<CommandTargetComponent>().targetEntity;
         if (localInput == Entity.Null)
         {
             var localPlayerId = GetSingleton<NetworkIdComponent>().Value;
@@ -153,7 +149,7 @@ public class SampleCubeInput : ComponentSystem
             });
             return;
         }
-        var input = default(CubeInput);
+        CubeInput input = default(CubeInput);
         input.tick = World.GetExistingSystem<ClientSimulationSystemGroup>().ServerTick;
         if (Input.GetKey("a"))
             input.horizontal -= 1;
@@ -175,9 +171,9 @@ public class MoveCubeSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        var group     = World.GetExistingSystem<GhostPredictionSystemGroup>();
-        var tick      = group.PredictingTick;
-        var deltaTime = Time.DeltaTime;
+        GhostPredictionSystemGroup group     = World.GetExistingSystem<GhostPredictionSystemGroup>();
+        uint tick      = group.PredictingTick;
+        float deltaTime = Time.DeltaTime;
         Entities.ForEach((DynamicBuffer<CubeInput> inputBuffer, ref Translation trans, ref PredictedGhostComponent prediction) =>
         {
             if (!GhostPredictionSystemGroup.ShouldPredict(tick, prediction))
@@ -210,7 +206,7 @@ public class GoInGameClientSystem : ComponentSystem
         Entities.WithNone<NetworkStreamInGame>().ForEach((Entity ent, ref NetworkIdComponent id) =>
         {
             PostUpdateCommands.AddComponent<NetworkStreamInGame>(ent);
-            var req = PostUpdateCommands.CreateEntity();
+            Entity req = PostUpdateCommands.CreateEntity();
             PostUpdateCommands.AddComponent<GoInGameRequest>(req);
             PostUpdateCommands.AddComponent(req, new SendRpcCommandRequestComponent { TargetConnection = ent });
         });
@@ -228,10 +224,10 @@ public class GoInGameServerSystem : ComponentSystem
         {
             PostUpdateCommands.AddComponent<NetworkStreamInGame>(reqSrc.SourceConnection);
             UnityEngine.Debug.Log(String.Format("Server setting connection {0} to in game", EntityManager.GetComponentData<NetworkIdComponent>(reqSrc.SourceConnection).Value));
-            var ghostCollection = GetSingleton<GhostPrefabCollectionComponent>();
-            var ghostId = UnitySandboxGhostSerializerCollection.FindGhostType<CubeGhostSnapshotData>();
-            var prefab = EntityManager.GetBuffer<GhostPrefabBuffer>(ghostCollection.serverPrefabs)[ghostId].Value;
-            var player = EntityManager.Instantiate(prefab);
+            GhostPrefabCollectionComponent ghostCollection = GetSingleton<GhostPrefabCollectionComponent>();
+            int ghostId = UnitySandboxGhostSerializerCollection.FindGhostType<CubeGhostSnapshotData>();
+            Entity prefab = EntityManager.GetBuffer<GhostPrefabBuffer>(ghostCollection.serverPrefabs)[ghostId].Value;
+            Entity player = EntityManager.Instantiate(prefab);
 
             EntityManager.SetComponentData(player, new MovableGhost { PlayerId = EntityManager.GetComponentData<NetworkIdComponent>(reqSrc.SourceConnection).Value});
             PostUpdateCommands.AddBuffer<CubeInput>(player);
