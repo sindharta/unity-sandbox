@@ -254,7 +254,7 @@ public class IconViewerWindow : EditorWindow {
         new Color(0.0f, 0.0f, 0.0f),    
         new Color(0.1f, 0.1f, 0.1f)
     };
-    readonly Color elementBGColorConfig   = new Color(0, 0, 0, 0.8f);
+    Color elementBGColorConfig            = new Color(0, 0, 0, 0.8f);
     readonly Color headerSepalaterColor   = new Color(1, 1, 1, 0.6f);
     readonly Color elementSepalaterColor  = new Color(0, 0, 0, 0.2f);
     readonly Color foldedRectColor        = new Color(0f, 0.2f, 0.2f);
