@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 
-public class IconViewerWindow : EditorWindow
-{
+public class IconViewerWindow : EditorWindow {
     //読み込んだアイコンのキャッシュ
     Texture2D[] icons;
 
@@ -48,19 +47,7 @@ public class IconViewerWindow : EditorWindow
         }
     }
 
-    //GUIStyles
-    GUIStyle blackLabel;
-    GUIStyle whiteLabel;
-
-    //Colors
-    Color headerColor = new Color(0.11765f, 0.11765f, 0.11765f);
-    Color elementBGColor0 = new Color(0.9f, 0.9f, 0.9f);
-    Color elementBGColor1 = new Color(0.95f, 0.95f, 0.95f);
-    Color elementBGColorConfig = new Color(0, 0, 0, 0.8f);
-    Color headerSepalaterColor = new Color(1, 1, 1, 0.6f);
-    Color elementSepalaterColor = new Color(0, 0, 0, 0.2f);
-    Color foldedRectColor = new Color(0f, 0.2f, 0.2f);
-
+//----------------------------------------------------------------------------------------------------------------------
     private void OnGUI()
     {
         var evt = Event.current;
@@ -139,7 +126,14 @@ public class IconViewerWindow : EditorWindow
             {
                 EditorGUI.DrawRect(new Rect(elementRect.position - Vector2.one, elementRect.size + Vector2.one * 2), new Color(0, 0.7f, 0.7f));
             }
-            EditorGUI.DrawRect(elementRect, i % 2 == 0 ? elementBGColor0 : elementBGColor1);
+
+            if (EditorGUIUtility.isProSkin) {
+                EditorGUI.DrawRect(elementRect, m_darkElementBGColors[i % 2]);
+                
+            } else {
+                EditorGUI.DrawRect(elementRect, m_lightElementBGColors[i % 2]);                
+            }
+            
             EditorGUI.LabelField(labelRect, icon.name, blackLabel);
             EditorGUI.DrawRect(sepalaterRect, elementSepalaterColor);
             EditorGUI.DrawRect(darkRect, elementBGColorConfig);
@@ -243,4 +237,26 @@ public class IconViewerWindow : EditorWindow
         }
         return filter;
     }
+ 
+//----------------------------------------------------------------------------------------------------------------------    
+    
+    //GUIStyles
+    GUIStyle blackLabel;
+    GUIStyle whiteLabel;
+
+    //Colors
+    readonly Color headerColor            = new Color(0.11765f, 0.11765f, 0.11765f);
+    readonly Color[] m_lightElementBGColors = new Color[2] {
+        new Color(0.9f, 0.9f, 0.9f),    
+        new Color(0.95f, 0.95f, 0.95f)
+    };
+    readonly Color[] m_darkElementBGColors = new Color[2] {
+        new Color(0.0f, 0.0f, 0.0f),    
+        new Color(0.1f, 0.1f, 0.1f)
+    };
+    readonly Color elementBGColorConfig   = new Color(0, 0, 0, 0.8f);
+    readonly Color headerSepalaterColor   = new Color(1, 1, 1, 0.6f);
+    readonly Color elementSepalaterColor  = new Color(0, 0, 0, 0.2f);
+    readonly Color foldedRectColor        = new Color(0f, 0.2f, 0.2f);
+    
 }
