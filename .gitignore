@@ -24,5 +24,6 @@ Output/*.*
 # Build
 */Build/**
 
-# Logs
+# Unity auto-generated files
 */Logs/**
+*/UserSettings/**
