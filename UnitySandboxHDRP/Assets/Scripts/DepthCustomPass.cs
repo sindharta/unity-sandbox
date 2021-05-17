@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
 
 class DepthCustomPass : CustomPass
 {
@@ -13,36 +12,30 @@ class DepthCustomPass : CustomPass
         if (null == m_targetDepth)
             return;
         
-        rtid = new RenderTargetIdentifier(m_targetDepth);
-        
-        CoreUtils.SetRenderTarget(cmd, rtid, ClearFlag.All);
-        // Setup code here
+        m_targetDepthTextureID = new RenderTargetIdentifier(m_targetDepth);        
+        CoreUtils.SetRenderTarget(cmd, m_targetDepthTextureID, ClearFlag.Color);
     }
 
     protected override void Execute(CustomPassContext ctx)
     {
-        if (null == m_targetDepth)
+        if (null == m_targetDepth || null == m_fullscreenPassMaterial)
             return;
         
-        Graphics.Blit(ctx.cameraDepthBuffer.rt,m_targetDepth);
-        
-//        CoreUtils.DrawFullScreen(ctx.cmd, fullscreenPassMaterial, shaderPassId: fullscreenPassMaterial.FindPass(materialPassName));
-
-        CoreUtils.DrawFullScreen(ctx.cmd, fullscreenPassMaterial, rtid, shaderPassId: fullscreenPassMaterial.FindPass(materialPassName));
+        CoreUtils.DrawFullScreen(ctx.cmd, m_fullscreenPassMaterial, m_targetDepthTextureID);
         
     }
 
-    protected override void Cleanup()
-    {
-        // Cleanup code
+    protected override void Cleanup() {
     }
 
+//----------------------------------------------------------------------------------------------------------------------    
+    [SerializeField] private Material      m_fullscreenPassMaterial;
     [SerializeField] private RenderTexture m_targetDepth;
     
-    public Material fullscreenPassMaterial;
-    public string   materialPassName = "Custom Pass 0";
+//----------------------------------------------------------------------------------------------------------------------    
+    
 
-    private RenderTargetIdentifier rtid;
+    private RenderTargetIdentifier m_targetDepthTextureID;
 
 
 }
