@@ -9,8 +9,13 @@ class DepthCustomPass : CustomPass
     // When empty this render pass will render to the active camera render target.
     // You should never call CommandBuffer.SetRenderTarget. Instead call <c>ConfigureTarget</c> and <c>ConfigureClear</c>.
     // The render pipeline will ensure target setup and clearing happens in an performance manner.
-    protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
-    {
+    protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd) {
+        if (null == m_targetDepth)
+            return;
+        
+        rtid = new RenderTargetIdentifier(m_targetDepth);
+        
+        CoreUtils.SetRenderTarget(cmd, rtid, ClearFlag.All);
         // Setup code here
     }
 
@@ -20,6 +25,11 @@ class DepthCustomPass : CustomPass
             return;
         
         Graphics.Blit(ctx.cameraDepthBuffer.rt,m_targetDepth);
+        
+//        CoreUtils.DrawFullScreen(ctx.cmd, fullscreenPassMaterial, shaderPassId: fullscreenPassMaterial.FindPass(materialPassName));
+
+        CoreUtils.DrawFullScreen(ctx.cmd, fullscreenPassMaterial, rtid, shaderPassId: fullscreenPassMaterial.FindPass(materialPassName));
+        
     }
 
     protected override void Cleanup()
@@ -28,5 +38,11 @@ class DepthCustomPass : CustomPass
     }
 
     [SerializeField] private RenderTexture m_targetDepth;
+    
+    public Material fullscreenPassMaterial;
+    public string   materialPassName = "Custom Pass 0";
+
+    private RenderTargetIdentifier rtid;
+
 
 }
