@@ -1,4 +1,4 @@
-﻿Shader "Unlit/TrueGray"
+﻿Shader "Sandbox/TrueGray"
 {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
