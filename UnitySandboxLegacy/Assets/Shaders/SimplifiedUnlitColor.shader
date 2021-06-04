@@ -5,7 +5,7 @@
 // - no lightmap support
 // - no texture
 
-Shader "Unlit/Sandbox/Color" {
+Shader "Sandbox/SimplifiedUnlitColor" {
 Properties {
     _Color ("Main Color", Color) = (1,1,1,1)
 }
