@@ -55,7 +55,7 @@ public class HelloWorldManager : MonoBehaviour {
                 out var networkedClient)) {
                 var player = networkedClient.PlayerObject.GetComponent<HelloWorldPlayer>();
                 if (player) {
-                    player.Move();
+                    player.RequestMove();
                 }
             }
         }

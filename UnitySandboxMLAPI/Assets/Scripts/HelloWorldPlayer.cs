@@ -13,26 +13,28 @@ public class HelloWorldPlayer : NetworkBehaviour {
 //----------------------------------------------------------------------------------------------------------------------    
     
     public override void NetworkStart() {
-        Move();
+        RequestMove();
     }
 //----------------------------------------------------------------------------------------------------------------------    
 
-    public void Move() {
+    public void RequestMove() {
         if (NetworkManager.Singleton.IsServer) {
-            var randomPosition = GetRandomPositionOnPlane();
-            Position.Value     = randomPosition;
+            Move();
         }
         else {
             SubmitPositionRequestServerRpc();
         }
     }
 
-//----------------------------------------------------------------------------------------------------------------------    
     [ServerRpc]
     void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default) {
-        Position.Value = GetRandomPositionOnPlane();
+        Move();
     }
-//----------------------------------------------------------------------------------------------------------------------    
+
+    void Move() {
+        Position.Value = GetRandomPositionOnPlane();
+        
+    }
 
     static Vector3 GetRandomPositionOnPlane() {
         return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
