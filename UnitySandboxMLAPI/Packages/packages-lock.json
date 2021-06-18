@@ -41,6 +41,23 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.multiplayer.mlapi": {
+      "version": "file:com.unity.multiplayer.mlapi",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.nuget.mono-cecil": "1.10.1-preview.1"
+      }
+    },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.10.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.nuget.newtonsoft-json": {
       "version": "2.0.0",
       "depth": 1,
