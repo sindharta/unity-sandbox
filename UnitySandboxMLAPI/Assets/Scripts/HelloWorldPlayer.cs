@@ -20,7 +20,6 @@ public class HelloWorldPlayer : NetworkBehaviour {
     public void Move() {
         if (NetworkManager.Singleton.IsServer) {
             var randomPosition = GetRandomPositionOnPlane();
-            transform.position = randomPosition;
             Position.Value     = randomPosition;
         }
         else {
