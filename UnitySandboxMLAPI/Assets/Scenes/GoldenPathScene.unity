@@ -420,7 +420,7 @@ MonoBehaviour:
     - GoldenPathScene
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
-    - Prefab: {fileID: 8983012643216707539, guid: f21fd567f2b4cbd41bb509b3d60c8441, type: 3}
+    - Prefab: {fileID: 8983012643216707539, guid: 488f162ad27ff4549a92dc9a0d5edd0b, type: 3}
       PlayerPrefab: 1
     PlayerPrefabHash:
       id: 0
