@@ -14,10 +14,10 @@ public class HelloWorldManager : MonoBehaviour {
         
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
         if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer) {
-            StartButtons();
+            DrawStartButtons();
         }
         else {
-            StatusLabels();
+            DrawStatusLabels();
 
             SubmitNewPosition();
         }
@@ -27,7 +27,7 @@ public class HelloWorldManager : MonoBehaviour {
     
 //----------------------------------------------------------------------------------------------------------------------    
 
-    void StartButtons() {
+    void DrawStartButtons() {
         if (GUILayout.Button("Host",m_buttonTextStyle, GUILayout.Width(BUTTON_WIDTH), GUILayout.Height(BUTTON_HEIGHT))) 
             NetworkManager.Singleton.StartHost();
         if (GUILayout.Button("Client", m_buttonTextStyle,GUILayout.Width(BUTTON_WIDTH), GUILayout.Height(BUTTON_HEIGHT))) 
@@ -37,7 +37,7 @@ public class HelloWorldManager : MonoBehaviour {
     }
 
 //----------------------------------------------------------------------------------------------------------------------    
-    static void StatusLabels() {
+    static void DrawStatusLabels() {
         var mode = NetworkManager.Singleton.IsHost ? "Host" : NetworkManager.Singleton.IsServer ? "Server" : "Client";
 
         GUILayout.Label("Transport: " +
