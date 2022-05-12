@@ -1,0 +1,20 @@
+name: 'Read File'
+description: 'Read a file'
+inputs:
+  filepath:
+    required: true
+    type: string
+
+outputs:
+  content: ${{ steps.read-file-step.outputs.content }}
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        file_content=`cat ${{ inputs.filepath }}`
+        file_content="${readme_content//'%'/'%25'}"
+        file_content="${file_content//$'\n'/'%0A'}"
+        file_content="${file_content//$'\r'/'%0D'}"
+        echo "::set-output name=content::${file_content}"
+          
+      
