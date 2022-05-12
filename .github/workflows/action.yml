@@ -11,10 +11,11 @@ runs:
   using: "composite"
   steps:
     - id: read-file-step
+      shell: bash
       run: |
         file_content=`cat ${{ inputs.filepath }}`
         file_content="${readme_content//'%'/'%25'}"
         file_content="${file_content//$'\n'/'%0A'}"
         file_content="${file_content//$'\r'/'%0D'}"
         echo "::set-output name=content::${file_content}"
-          
+     
