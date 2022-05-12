@@ -6,7 +6,10 @@ inputs:
     type: string
 
 outputs:
-  content: ${{ steps.read-file-step.outputs.content }}
+  content:
+    description: "File Content"
+    value: ${{ steps.read-file-step.outputs.content }}
+    
 runs:
   using: "composite"
   steps:
