@@ -1,4 +1,3 @@
-# This is a basic workflow to help you get started with Actions
 
 name: read-readme
 
@@ -18,8 +17,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
       - name: Read README file
         id: read-readme
-        run: echo "::set-output name=readme::$(cat README.md)"
-        
+        run: |
+          readme_content=`cat README.md`
+          readme_content="${readme_content//'%'/'%25'}"
+          readme_content="${readme_content//$'\n'/'%0A'}"
+          readme_content="${readme_content//$'\r'/'%0D'}"
+          echo "::set-output name=content::${readme_content}"          
+      - name: Print out
+        id: print
+        run: |          
+          echo "${{ steps.read-readme.outputs.content }}"         
