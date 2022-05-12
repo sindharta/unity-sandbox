@@ -17,17 +17,8 @@ runs:
       shell: bash
       run: |
         file_content=`cat ${{ inputs.filepath }}`
-        file_content="${readme_content//'%'/'%25'}"
+        file_content="${file_content//'%'/'%25'}"
         file_content="${file_content//$'\n'/'%0A'}"
         file_content="${file_content//$'\r'/'%0D'}"
-        echo $file_content
-        echo $file_content
-        echo $file_content
         echo "::set-output name=content::${file_content}"
-    - name: Print out
-      id: print
-      shell: bash
-      run: |          
-        echo "${{ steps.read-file-step.outputs.content }}"           
-        
      
