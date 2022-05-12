@@ -10,7 +10,8 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: |
+    - id: read-file-step
+      run: |
         file_content=`cat ${{ inputs.filepath }}`
         file_content="${readme_content//'%'/'%25'}"
         file_content="${file_content//$'\n'/'%0A'}"
