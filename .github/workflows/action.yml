@@ -21,4 +21,9 @@ runs:
         file_content="${file_content//$'\n'/'%0A'}"
         file_content="${file_content//$'\r'/'%0D'}"
         echo "::set-output name=content::${file_content}"
+    - name: Print out
+      id: print
+      run: |          
+        echo "${{ steps.read-file-step.outputs.content }}"           
+        
      
