@@ -23,6 +23,7 @@ runs:
         echo "::set-output name=content::${file_content}"
     - name: Print out
       id: print
+      shell: bash
       run: |          
         echo "${{ steps.read-file-step.outputs.content }}"           
         
