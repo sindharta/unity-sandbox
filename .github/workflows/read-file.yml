@@ -1,0 +1,26 @@
+name: Read file
+
+on:
+  workflow_call:
+    inputs:
+      filepath:
+        required: true
+        type: string
+
+jobs:
+  read_file:
+    name: Read a file
+    runs-on: ubuntu-latest
+    
+    # Map the job outputs to step outputs
+    outputs:
+      content: ${{ steps.read-file-step.outputs.content }}
+    steps:
+      - id: read-file-step
+        run: |
+          file_content=`cat ${{ inputs.filepath }}`
+          file_content="${readme_content//'%'/'%25'}"
+          file_content="${file_content//$'\n'/'%0A'}"
+          file_content="${file_content//$'\r'/'%0D'}"
+          echo "::set-output name=content::${file_content}"
+        
