@@ -24,4 +24,4 @@ jobs:
           readme_content="${readme_content//'%'/'%25'}"
           readme_content="${readme_content//$'\n'/'%0A'}"
           readme_content="${readme_content//$'\r'/'%0D'}"
-          echo ${readme_content}
+          echo $readme_content
