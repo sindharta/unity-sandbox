@@ -8,12 +8,12 @@ public partial class StringItemsGenerator {
     /// <summary>
     /// Stores the generated class name.
     /// </summary>
-    private string className;
+    private readonly string m_className;
 
     /// <summary>
     /// A datasource for which concrete static fields will be created on the generated class.
     /// </summary>
-    private string[] source;
+    private readonly string[] m_dataSource;
 
     /// <summary>
     /// Initializes a new instance of the Generator class.
@@ -29,8 +29,8 @@ public partial class StringItemsGenerator {
             throw new ArgumentNullException("source cannot be null!");
         }
 
-        this.className = generatedClassName;
-        this.source    = source;
+        this.m_className  = generatedClassName;
+        this.m_dataSource = source;
     }
 }
 }
