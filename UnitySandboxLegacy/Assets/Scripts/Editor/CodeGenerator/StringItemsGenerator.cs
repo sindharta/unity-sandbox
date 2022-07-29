@@ -42,31 +42,29 @@ namespace Editor.CodeGenerator
             this.Write("\r\n{\r\n");
             
             #line 15 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
- foreach (var item in m_dataSource)
-{
+ foreach (var item in m_dataSource) {    
 
             
             #line default
             #line hidden
             this.Write("    public static readonly string ");
             
-            #line 18 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
+            #line 17 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.Replace(" ", "")));
             
             #line default
             #line hidden
             this.Write(" = \"");
             
-            #line 18 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
+            #line 17 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item));
             
             #line default
             #line hidden
-            this.Write("\";\r\n");
+            this.Write("\";\r\n\r\n");
             
             #line 19 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
-		}
-    
+	} 
             
             #line default
             #line hidden
