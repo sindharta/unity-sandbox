@@ -16,6 +16,6 @@ public static class <#= m_className #>
 #>
     public static readonly string <#= item.Replace(" ", "") #> = "<#= item #>";
 
-<#	} #>
+<#  } #>
 }
 }
