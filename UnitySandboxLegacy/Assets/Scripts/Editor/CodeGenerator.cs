@@ -4,8 +4,6 @@ using Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace AssemblyCSharpEditor {
-
 /// <summary>
 /// A helper class for code generation in the editor.
 /// </summary>
@@ -39,5 +37,4 @@ public static class CodeGenerator {
             Debug.Log("An error occurred while saving file: " + e);
         }
     }
-}
 }
