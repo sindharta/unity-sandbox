@@ -8,11 +8,11 @@ namespace CodeGeneration {
 //------------------------------------------------------------------------------
 
 /// <summary>
-/// Generates a safe wrapper for <#= className #>.
+/// Generates a safe wrapper for <#= m_className #>.
 /// </summary>
-public static class <#= className #>
+public static class <#= m_className #>
 {
-<# foreach (var item in source)
+<# foreach (var item in m_dataSource)
 {
 #>
     public static readonly string <#= item.Replace(" ", "") #> = "<#= item #>";
