@@ -2,15 +2,15 @@
 using UnityEditor;
 
 [CustomEditor(typeof(SerializeDictionaryTest))]
-public class SerializeDictionaryTestEditor : Editor 
+public class SerializeDictionaryTestEditor : UnityEditor.Editor 
 {
 	public override void OnInspectorGUI()
 	{
-		SerializeDictionaryTest cur_target = (SerializeDictionaryTest)target;
-        Dictionary<int,int> data = cur_target.GetData();
+		SerializeDictionaryTest curTarget = (SerializeDictionaryTest)target;
+        Dictionary<int,int> data = curTarget.GetData();
         
         EditorGUILayout.LabelField("DataCount", data.Count.ToString());
-		var enumerator = cur_target.GetData().GetEnumerator();
+		Dictionary<int, int>.Enumerator enumerator = data.GetEnumerator();
         ++EditorGUI.indentLevel;
         
         //header
@@ -20,10 +20,10 @@ public class SerializeDictionaryTestEditor : Editor
         EditorGUILayout.EndHorizontal();
         
 		while (enumerator.MoveNext()) {
-            var cur_data = enumerator.Current;            
+            KeyValuePair<int, int> curData = enumerator.Current;
             EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField(cur_data.Key.ToString());
-            EditorGUILayout.LabelField(cur_data.Value.ToString());
+			EditorGUILayout.LabelField(curData.Key.ToString());
+            EditorGUILayout.LabelField(curData.Value.ToString());
             EditorGUILayout.EndHorizontal();
 		}
         --EditorGUI.indentLevel;		
