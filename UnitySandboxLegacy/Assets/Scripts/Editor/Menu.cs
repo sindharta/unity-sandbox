@@ -2,6 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 using System.IO;
+using Editor;
+using Editor.CodeGenerator;
 using Unity.Assertions;
 using Unity.Collections;
 
@@ -49,8 +51,7 @@ public static class Menu {
         AssetDatabase.Refresh();
     }
 
-//----------------------------------------------------------------------------------------------------------------------
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
     
     [MenuItem("Debug/Encode Gray Scene Output RT")]
     static void EncodeGraySceneOutputRT() {
@@ -95,6 +96,36 @@ public static class Menu {
         UnityEngine.Object.DestroyImmediate(tempTex);
         RenderTexture.active = prevRenderTexture;        
     }
+    
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    [MenuItem("Code Generation/Generate Tags")]
+    static void GenerateTags() {
+        Generate("Tags", UnityEditorInternal.InternalEditorUtility.tags);
+    }
+
+    [MenuItem("Code Generation/Generate Layers")]
+    static void GenerateLayers() {
+        Generate("Layers", UnityEditorInternal.InternalEditorUtility.layers);
+    }
+
+    private static void Generate(string name, string[] data) {
+        // Build the generator with the class name and data source.
+        StringItemsGenerator generator = new StringItemsGenerator(name, data);
+
+        // Generate output (class definition).
+        string classDefinition = generator.TransformText();
+        string outputPath      = Path.Combine(Application.dataPath, name + ".cs");
+
+        try {
+            File.WriteAllText(outputPath, classDefinition); // Save new class to assets folder.
+            AssetDatabase.Refresh();                        // Refresh assets.
+        }
+        catch (Exception e) {
+            Debug.Log("An error occurred while saving file: " + e);
+        }
+    }
+    
 
 
 }
