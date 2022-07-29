@@ -4,6 +4,8 @@ using Editor;
 using UnityEditor;
 using UnityEngine;
 
+using Editor.CodeGenerator;
+
 /// <summary>
 /// A helper class for code generation in the editor.
 /// </summary>

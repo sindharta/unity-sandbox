@@ -1,6 +1,6 @@
 using System;
 
-namespace Editor {
+namespace Editor.CodeGenerator {
 /// <summary>
 /// Provides a constructor for the T4 template to pass the data in.
 /// </summary>
