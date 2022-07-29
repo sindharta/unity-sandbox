@@ -1,4 +1,4 @@
-<#@ template language="C#" #>
+<#@ template language="C#" linePragmas="false" #>
 namespace CodeGeneration {
 
 //------------------------------------------------------------------------------
@@ -12,11 +12,10 @@ namespace CodeGeneration {
 /// </summary>
 public static class <#= m_className #>
 {
-<# foreach (var item in m_dataSource)
-{
+<# foreach (var item in m_dataSource) {    
 #>
     public static readonly string <#= item.Replace(" ", "") #> = "<#= item #>";
-<#		}
-    #>
+
+<#	} #>
 }
 }
