@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class DOTSBallSpawnSystem : SystemBase {
+public partial class DOTSBallSpawnSystem : SystemBase {
     private struct DOTSBallSpawned : IComponentData {
     }
 
