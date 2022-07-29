@@ -64,7 +64,7 @@ namespace Editor.CodeGenerator
             this.Write("\";\r\n\r\n");
             
             #line 19 "E:\G\Personal\unity-sandbox\UnitySandboxLegacy\Assets\Scripts\Editor\CodeGenerator\StringItemsGenerator.tt"
-	} 
+  } 
             
             #line default
             #line hidden
