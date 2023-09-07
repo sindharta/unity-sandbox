@@ -1,21 +1,21 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HelloWorld {
 public class HelloWorldPlayer : NetworkBehaviour {
-    public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
 
     public override void OnNetworkSpawn() {
         if (IsOwner) {
-            Move();
+            NetworkMove();
         }
     }
 
-    public void Move() {
+    public void NetworkMove() {
         if (NetworkManager.Singleton.IsServer) {
             Vector3 randomPosition = GetRandomPositionOnPlane();
             transform.position = randomPosition;
-            Position.Value     = randomPosition;
+            m_networkPos.Value = randomPosition;
         }
         else {
             SubmitPositionRequestServerRpc();
@@ -24,7 +24,7 @@ public class HelloWorldPlayer : NetworkBehaviour {
 
     [ServerRpc]
     void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default) {
-        Position.Value = GetRandomPositionOnPlane();
+        m_networkPos.Value = GetRandomPositionOnPlane();
     }
 
     static Vector3 GetRandomPositionOnPlane() {
@@ -32,7 +32,12 @@ public class HelloWorldPlayer : NetworkBehaviour {
     }
 
     void Update() {
-        transform.position = Position.Value;
+        transform.position = m_networkPos.Value;
     }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    [SerializeField] private NetworkVariable<Vector3> m_networkPos = new NetworkVariable<Vector3>();
+    
 }
 }

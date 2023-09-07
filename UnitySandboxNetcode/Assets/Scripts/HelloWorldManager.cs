@@ -32,11 +32,11 @@ public class HelloWorldManager : MonoBehaviour {
         if (GUILayout.Button(NetworkManager.Singleton.IsServer ? "Move" : "Request Position Change")) {
             if (NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient) {
                 foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds)
-                    NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().Move();
+                    NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().NetworkMove();
             } else {
                 NetworkObject    playerObject = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject();
                 HelloWorldPlayer player       = playerObject.GetComponent<HelloWorldPlayer>();
-                player.Move();
+                player.NetworkMove();
             }
         }
     }
