@@ -11,7 +11,9 @@ public class RpcTest : NetworkBehaviour {
 
     [ClientRpc]
     void TestClientRpc(int value, ulong sourceNetworkObjectId) {
-        Debug.Log($"Client Received the RPC #{value} on NetworkObject #{sourceNetworkObjectId}");
+        string ownerString = IsOwner ? "" : "(Owned by this client)";        
+        Debug.Log($"Client Received the RPC #{value} on NetworkObject #{sourceNetworkObjectId}. {ownerString}");
+        
         if (IsOwner) //Only send an RPC to the server on the client that owns the NetworkObject that owns this NetworkBehaviour instance
         {
             TestServerRpc(value + 1, sourceNetworkObjectId);
