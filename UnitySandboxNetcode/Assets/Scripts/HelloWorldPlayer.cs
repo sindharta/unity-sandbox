@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 namespace HelloWorld {
@@ -22,6 +23,12 @@ public class HelloWorldPlayer : NetworkBehaviour {
         }
     }
 
+    public void NetworkMoveByServer(Vector3 pos) {
+        Assert.IsTrue(NetworkManager.Singleton.IsServer);
+        transform.position = pos;
+        m_networkPos.Value = pos;
+    }
+    
     [ServerRpc]
     void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default) {
         m_networkPos.Value = GetRandomPositionOnPlane();
