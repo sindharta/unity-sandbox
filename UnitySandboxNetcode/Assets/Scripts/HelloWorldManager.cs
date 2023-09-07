@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HelloWorld {
 public class HelloWorldManager : MonoBehaviour {
     void OnGUI() {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+        GUILayout.BeginArea(new Rect(10, 10, 300, 600));
         if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer) {
             StartButtons();
         } else {
@@ -33,8 +33,7 @@ public class HelloWorldManager : MonoBehaviour {
             if (NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient) {
                 foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds)
                     NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().Move();
-            }
-            else {
+            } else {
                 NetworkObject    playerObject = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject();
                 HelloWorldPlayer player       = playerObject.GetComponent<HelloWorldPlayer>();
                 player.Move();
