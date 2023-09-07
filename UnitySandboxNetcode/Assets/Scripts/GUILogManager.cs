@@ -19,13 +19,13 @@ public class GUILogManager : MonoBehaviour {
     }
 
     void OnGUI() {
-        GUILayout.BeginArea(new Rect(Screen.width - 400, 0, 400, Screen.height));
+        GUILayout.BeginArea(new Rect(Screen.width - (Screen.width * 0.5f), 0, Screen.height * 0.5f, Screen.height));
         GUILayout.Label("\n" + string.Join("\n", m_logQueue.ToArray()));
         GUILayout.EndArea();
     }
     
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
-    const    uint  MAX_LOG_SIZE = 15; // number of messages to keep
+    const    uint  MAX_LOG_SIZE = 40; // number of messages to keep
     readonly Queue m_logQueue   = new Queue();
     
 }
