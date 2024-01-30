@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.unity.collab-proxy": "2.0.4",
     "com.unity.entities": "0.51.0-preview.32",
     "com.unity.ext.nunit": "1.0.6",
     "com.unity.ide.rider": "3.0.27",
