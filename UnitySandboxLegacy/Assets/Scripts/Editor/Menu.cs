@@ -2,10 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 using System.IO;
-using Editor;
 using Editor.CodeGenerator;
-using Unity.Assertions;
 using Unity.Collections;
+using UnityEngine.Assertions;
 
 public static class Menu {
 
