@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ShaderVariant/ShaderVariantScene.unity
     guid: 9238d17c40577124592206135a3a6682
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8519a207f7042cf4db96609d9e142272,
+      type: 2}
