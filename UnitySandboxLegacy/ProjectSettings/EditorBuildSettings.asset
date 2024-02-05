@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/AllocatedMemory/AllocatedMemoryTest.unity
     guid: b9ae1bbc26ef61b4a82bfc84741be219
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/ShaderVariant/ShaderVariantScene.unity
+    guid: 9238d17c40577124592206135a3a6682
   m_configObjects: {}
