@@ -36,30 +36,57 @@ public class FindNearestJobSpawner : MonoBehaviour {
         }
 
         JobHandle findHandle;
-        
-        if (m_useParallelJob) {
+
+        switch (m_findNearestType) {
+            case FindNearestType.SingleThreadBruteForce: {
+                // To schedule a job, we first need to create an instance and populate its fields.
+                FindNearestJob findJob = new FindNearestJob {
+                    TargetPositions = TargetPositions,
+                    SeekerPositions = SeekerPositions,
+                    NearestTargetPositions = NearestTargetPositions,
+                };
+
+                // Schedule() puts the job instance on the job queue.
+                findHandle = findJob.Schedule();
+                break;
+            }
+            case FindNearestType.ParallelBruteForce: {
+                FindNearestJobParallel findJob = new FindNearestJobParallel() {
+                    TargetPositions = TargetPositions,
+                    SeekerPositions = SeekerPositions,
+                    NearestTargetPositions = NearestTargetPositions,
+                };
             
-            FindNearestJobParallel findJob = new FindNearestJobParallel() {
-                TargetPositions = TargetPositions,
-                SeekerPositions = SeekerPositions,
-                NearestTargetPositions = NearestTargetPositions,
-            };
-            
-            // This job processes every seeker, so the
-            // seeker array length is used as the index count.
-            // A batch size of 100 is semi-arbitrarily chosen here 
-            // simply because it's not too big but not too small.
-            findHandle = findJob.Schedule(SeekerPositions.Length, m_maxParallelJobs);
-        } else {
-            // To schedule a job, we first need to create an instance and populate its fields.
-            FindNearestJob findJob = new FindNearestJob {
-                TargetPositions = TargetPositions,
-                SeekerPositions = SeekerPositions,
-                NearestTargetPositions = NearestTargetPositions,
-            };
-            
-            // Schedule() puts the job instance on the job queue.
-            findHandle = findJob.Schedule();
+                // This job processes every seeker, so the
+                // seeker array length is used as the index count.
+                // A batch size of 100 is semi-arbitrarily chosen here 
+                // simply because it's not too big but not too small.
+                findHandle = findJob.Schedule(SeekerPositions.Length, m_maxParallelJobs);
+                break;
+            }
+            case FindNearestType.ParallelSmart: {
+                SortJob<float3, AxisXComparer> sortJob = TargetPositions.SortJob(new AxisXComparer { });
+                JobHandle sortHandle = sortJob.Schedule();
+
+                FindNearestSmartJobParallel findJob = new FindNearestSmartJobParallel()
+                {
+                    TargetPositions = TargetPositions,
+                    SeekerPositions = SeekerPositions,
+                    NearestTargetPositions = NearestTargetPositions,
+                };
+
+                // By passing the sort job handle to Schedule(), the find job will depend
+                // upon the sort job, meaning the find job will not start executing until 
+                // after the sort job has finished.
+                // The find nearest job needs to wait for the sorting, 
+                // so it must depend upon the sorting jobs. 
+                findHandle = findJob.Schedule(SeekerPositions.Length, m_maxParallelJobs, sortHandle);
+                break;
+            }
+            default: {
+                findHandle = new JobHandle();
+                break;
+            }
         }
 
         // The Complete method will not return until the job represented by
@@ -76,7 +103,8 @@ public class FindNearestJobSpawner : MonoBehaviour {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    [SerializeField] bool m_useParallelJob;
+    [SerializeField] private FindNearestType m_findNearestType = FindNearestType.ParallelBruteForce;
+    
     [Range(1,500)][SerializeField] int m_maxParallelJobs = 100;
 
     // The size of our arrays does not need to vary, so rather than create
