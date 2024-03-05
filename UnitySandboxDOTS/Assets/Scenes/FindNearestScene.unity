@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4dc1609f446d5e4d87b623367f71fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_useParallelJob: 1
+  m_findNearestType: 0
   m_maxParallelJobs: 100
 --- !u!4 &1130735832
 Transform:
