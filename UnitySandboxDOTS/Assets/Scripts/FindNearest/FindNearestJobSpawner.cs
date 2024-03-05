@@ -49,7 +49,7 @@ public class FindNearestJobSpawner : MonoBehaviour {
             // seeker array length is used as the index count.
             // A batch size of 100 is semi-arbitrarily chosen here 
             // simply because it's not too big but not too small.
-            findHandle = findJob.Schedule(SeekerPositions.Length, 100);            
+            findHandle = findJob.Schedule(SeekerPositions.Length, m_maxParallelJobs);
         } else {
             // To schedule a job, we first need to create an instance and populate its fields.
             FindNearestJob findJob = new FindNearestJob {
@@ -77,6 +77,7 @@ public class FindNearestJobSpawner : MonoBehaviour {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     [SerializeField] bool m_useParallelJob;
+    [Range(1,500)][SerializeField] int m_maxParallelJobs = 100;
 
     // The size of our arrays does not need to vary, so rather than create
     // new arrays every field, we'll create the arrays in Awake() and store them
