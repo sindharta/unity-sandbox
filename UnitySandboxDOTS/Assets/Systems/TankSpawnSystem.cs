@@ -33,6 +33,11 @@ public partial struct TankSpawnSystem : ISystem {
 
         for (int i = 0; i < config.TankCount; i++) {
             Entity tankEntity = state.EntityManager.Instantiate(config.TankPrefab);
+            
+            // Add the Player component to the first tank
+            if (i == 0) {
+                state.EntityManager.AddComponent<Player>(tankEntity);
+            }
 
             // URPMaterialPropertyBaseColor is a component from the Entities.Graphics package 
             // that lets us set the rendered base color of a rendered entity.

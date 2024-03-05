@@ -15,6 +15,7 @@ public partial struct TankMovementSystem : ISystem
         foreach ((RefRW<LocalTransform> transform, Entity entity) in
                  SystemAPI.Query<RefRW<LocalTransform>>()
                      .WithAll<Tank>()
+                     .WithNone<Player>()  // exclude the player tank from the query
                      .WithEntityAccess())
         {
             float3 pos = transform.ValueRO.Position;
