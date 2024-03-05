@@ -4,12 +4,6 @@ using Unity.Mathematics;
 using UnityEngine;
 
 public class FindNearestJobSpawner : MonoBehaviour {
-    // The size of our arrays does not need to vary, so rather than create
-    // new arrays every field, we'll create the arrays in Awake() and store them
-    // in these fields.
-    NativeArray<float3> TargetPositions;
-    NativeArray<float3> SeekerPositions;
-    NativeArray<float3> NearestTargetPositions;
 
     public void Start() {
         Spawner spawner = Object.FindObjectOfType<Spawner>();
@@ -41,15 +35,32 @@ public class FindNearestJobSpawner : MonoBehaviour {
             SeekerPositions[i] = Spawner.SeekerTransforms[i].localPosition;
         }
 
-        // To schedule a job, we first need to create an instance and populate its fields.
-        FindNearestJob findJob = new FindNearestJob {
-            TargetPositions = TargetPositions,
-            SeekerPositions = SeekerPositions,
-            NearestTargetPositions = NearestTargetPositions,
-        };
-
-        // Schedule() puts the job instance on the job queue.
-        JobHandle findHandle = findJob.Schedule();
+        JobHandle findHandle;
+        
+        if (m_useParallelJob) {
+            
+            FindNearestJobParallel findJob = new FindNearestJobParallel() {
+                TargetPositions = TargetPositions,
+                SeekerPositions = SeekerPositions,
+                NearestTargetPositions = NearestTargetPositions,
+            };
+            
+            // This job processes every seeker, so the
+            // seeker array length is used as the index count.
+            // A batch size of 100 is semi-arbitrarily chosen here 
+            // simply because it's not too big but not too small.
+            findHandle = findJob.Schedule(SeekerPositions.Length, 100);            
+        } else {
+            // To schedule a job, we first need to create an instance and populate its fields.
+            FindNearestJob findJob = new FindNearestJob {
+                TargetPositions = TargetPositions,
+                SeekerPositions = SeekerPositions,
+                NearestTargetPositions = NearestTargetPositions,
+            };
+            
+            // Schedule() puts the job instance on the job queue.
+            findHandle = findJob.Schedule();
+        }
 
         // The Complete method will not return until the job represented by
         // the handle finishes execution. Effectively, the main thread waits
@@ -62,4 +73,16 @@ public class FindNearestJobSpawner : MonoBehaviour {
             Debug.DrawLine(SeekerPositions[i], NearestTargetPositions[i]);
         }
     }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    [SerializeField] bool m_useParallelJob;
+
+    // The size of our arrays does not need to vary, so rather than create
+    // new arrays every field, we'll create the arrays in Awake() and store them
+    // in these fields.
+    NativeArray<float3> TargetPositions;
+    NativeArray<float3> SeekerPositions;
+    NativeArray<float3> NearestTargetPositions;
+    
 }
