@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FindNearest : MonoBehaviour
+public class FindNearestMainThread : MonoBehaviour
 {
     public void Update()
     {
