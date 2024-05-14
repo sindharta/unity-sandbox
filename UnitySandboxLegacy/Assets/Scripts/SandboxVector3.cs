@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-[DebuggerDisplay("({X},{Y},{Z})")] //controls how the class is displayed in the debugger variable windows (one line / root)
+[DebuggerDisplay("({X},{Y},{Z})")] //controls how the class is displayed in the debugger variable windows (one liner / root / unexpanded)
 [DebuggerTypeProxy(typeof(SandboxVector3DebugView))] //controls how the class is displayed in the debugger variable windows when expanded
 public struct SandboxVector3 {
 
