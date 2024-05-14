@@ -1,5 +1,5 @@
-public class CDebuggerFullName {
-    public CDebuggerFullName(string firstName, string lastName) {
+public class FullName {
+    public FullName(string firstName, string lastName) {
         FirstName = firstName;
         LastName = lastName;
     }

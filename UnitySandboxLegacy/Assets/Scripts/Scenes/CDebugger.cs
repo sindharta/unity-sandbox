@@ -6,7 +6,7 @@ public class CDebugger : MonoBehaviour
     private void Start() {
         m_user = new CDebuggerUser {
             Login = "JohnDoe",
-            FullName = new CDebuggerFullName("John", "Doe"),
+            FullName = new FullName("John", "Doe"),
             HashedPassword = "123"
         };
     }
