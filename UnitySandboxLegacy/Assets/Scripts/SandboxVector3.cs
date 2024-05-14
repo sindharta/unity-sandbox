@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
-using UnityEngine;
 
-[DebuggerTypeProxy(typeof(SandboxVector3DebugView))]
+[DebuggerDisplay("({X},{Y},{Z})")] //controls how the class is displayed in the debugger variable windows (one line / root)
+[DebuggerTypeProxy(typeof(SandboxVector3DebugView))] //controls how the class is displayed in the debugger variable windows when expanded
 public struct SandboxVector3 {
 
     [Serializable]
@@ -11,10 +11,11 @@ public struct SandboxVector3 {
             this.m_myVec = myVec;
         }
 
-        public float X => m_myVec.X;
-        public float Y => m_myVec.Y;
+        public float X100 => m_myVec.X * 100;
+        public float Y100 => m_myVec.Y * 100;
+        public float Z100 => m_myVec.Z * 100;
 
-        [SerializeField] internal SandboxVector3 m_myVec;
+        private SandboxVector3 m_myVec;
     }    
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------    
     
