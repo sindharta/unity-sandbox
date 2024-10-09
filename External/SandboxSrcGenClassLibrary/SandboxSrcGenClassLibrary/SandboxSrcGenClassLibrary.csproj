@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;..\..\..\UnitySandboxLegacy\Assets\Plugins\DLL\$(ProjectName).dll&quot;" />
+  </Target>
+
 </Project>
