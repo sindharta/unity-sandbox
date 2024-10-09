@@ -5,9 +5,10 @@ public class HelloFromSourceGenerator : MonoBehaviour {
         return SandboxSrcGen.SandboxSrcGenerated.GetTestText();
     }
     void Start() {
-            string output = "Test";
-            output = GetStringFromSourceGenerator();
-            Debug.Log(output);
+        string output = "Test";
+        output = GetStringFromSourceGenerator();
+        Debug.Log(output);
     }
 }
+
 
