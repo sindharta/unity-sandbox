@@ -16,7 +16,9 @@
 */Assets/*.pidb.meta
 External/*/bin/*
 External/**/*.mdb
+External/**/*Backup.csproj
 External/**/Debug/*
+External/**/Release/*
 Output/*.*
 **/.idea/**
 
