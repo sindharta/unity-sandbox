@@ -2,10 +2,10 @@
 using Microsoft.CodeAnalysis.Text;
 using System.Text;
 
-namespace ExampleSourceGenerator
+namespace SandboxSrcGen
 {
     [Generator]
-    public class ExampleSourceGenerator : ISourceGenerator
+    public class SandboxSrcGenerator: ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {
@@ -14,9 +14,9 @@ namespace ExampleSourceGenerator
             var sourceBuilder = new StringBuilder(
             @"
             using System;
-            namespace ExampleSourceGenerated
+            namespace SandboxSrcGen
             {
-                public static class ExampleSourceGenerated
+                public static class SandboxSrcGenerated
                 {
                     public static string GetTestText()
                     {
