@@ -9,7 +9,7 @@ public class GameObjectSingleton : MonoBehaviour {
 
     public static GameObjectSingleton GetInstance() {
         if(null == m_instance) {
-            m_instance = GameObject.FindObjectOfType<GameObjectSingleton>();          
+            m_instance = GameObject.FindFirstObjectOfType<GameObjectSingleton>();          
 
             //Create automatically
             if (null==m_instance) {
