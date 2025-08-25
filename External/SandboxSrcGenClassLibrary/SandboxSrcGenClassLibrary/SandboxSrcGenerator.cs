@@ -16,7 +16,7 @@ namespace SandboxSrcGen
             using System;
             namespace SandboxSrcGen
             {
-                public static class SandboxSrcGenerated
+                internal static class SandboxSrcGenerated
                 {
                     public static string GetTestText()
                     {
