@@ -48,14 +48,14 @@ public class PlayerControl : MonoBehaviour
 		anim.SetFloat("Speed", Mathf.Abs(h));
 
 		// If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
-		if(h * GetComponent<Rigidbody2D>().velocity.x < maxSpeed)
+		if(h * GetComponent<Rigidbody2D>().linearVelocity.x < maxSpeed)
 			// ... add a force to the player.
 			GetComponent<Rigidbody2D>().AddForce(Vector2.right * h * moveForce);
 
 		// If the player's horizontal velocity is greater than the maxSpeed...
-		if(Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > maxSpeed)
+		if(Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > maxSpeed)
 			// ... set the player's velocity to the maxSpeed in the x axis.
-			GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().velocity.x) * maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+			GetComponent<Rigidbody2D>().linearVelocity = new Vector2(Mathf.Sign(GetComponent<Rigidbody2D>().linearVelocity.x) * maxSpeed, GetComponent<Rigidbody2D>().linearVelocity.y);
 
 		// If the input is moving the player right and the player is facing left...
 		if(h > 0 && !facingRight)
