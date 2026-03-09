@@ -19,7 +19,7 @@ public class SpriteAtlasCallbackManager : MonoBehaviour {
     {
         Debug.Log($"Atlas requested: {atlasName}");
         // Load SpriteAtlas from Addressables
-        var handle = Addressables.LoadAssetAsync<SpriteAtlas>("Assets/Art/AtlasAssetBundles/UnityChanExtraActionsAtlas.spriteatlasv2");
+        var handle = Addressables.LoadAssetAsync<SpriteAtlas>("Assets/AddressableContent/Atlases/UnityChanExtraActionsAtlas.spriteatlasv2");
         handle.Completed += (AsyncOperationHandle<SpriteAtlas> op) =>
         {
             if (op.Status == AsyncOperationStatus.Succeeded && op.Result != null)
