@@ -28,3 +28,6 @@ Output/*.*
 # Unity auto-generated files
 */Logs/**
 */UserSettings/**
+
+# Addressables
+*/Assets/AddressableAssetsData/link.xml*
