@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 481505887}
   - component: {fileID: 481505886}
   m_Layer: 0
-  m_Name: NonAtlasSprite
+  m_Name: DirectSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 949938100}
   - component: {fileID: 949938099}
   m_Layer: 0
-  m_Name: AtlasSpriteInAssetBundle
+  m_Name: AddressableAtlasSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
