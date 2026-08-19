@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CustomEditor(typeof(SerializeReferenceChannels))]
-public class SerializeReferenceChannelsEditor : Editor {
+public class SerializeReferenceChannelsInspector : Editor {
     // Unity injects "m_Script" into every MonoBehaviour's serialized data. There is no C# member
     // behind it, so there is nothing for nameof to point at.
     const string k_ScriptPropertyPath = "m_Script";
