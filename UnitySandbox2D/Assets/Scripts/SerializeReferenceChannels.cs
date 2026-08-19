@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 /// <summary>One channel. A plain managed class, so each instance gets its own RefId.</summary>
 [Serializable]
@@ -14,17 +11,25 @@ public class FloatChannelRef {
 
 /// <summary>
 /// Dynamic channel count via [SerializeReference]: the animation system enumerates the object's
-/// managed-reference registry, so every element in this list contributes its own animatable
-/// property, exposed as "managedReferences[refId].value".
+/// managed-reference registry, so every non-null element contributes its own animatable property,
+/// exposed as "managedReferences[refId].value".
 /// </summary>
 [ExecuteAlways]
 public class SerializeReferenceChannels : MonoBehaviour {
     [SerializeReference] List<FloatChannelRef> m_Channels = new List<FloatChannelRef>();
 
+    /// <summary>
+    /// Serialized property path of the channel list. The field is private, so editor code in
+    /// another assembly cannot apply nameof to it directly.
+    /// </summary>
+    public const string kChannelsPropertyPath = nameof(m_Channels);
+
     /// <summary>Raised after the animation system writes any channel.</summary>
     public event Action Applied;
 
     public int channelCount => m_Channels.Count;
+
+    public IReadOnlyList<FloatChannelRef> channels => m_Channels;
 
     public float this[string name] {
         get {
@@ -49,6 +54,25 @@ public class SerializeReferenceChannels : MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// Appends a channel. The caller is responsible for making the object serialize afterwards;
+    /// until it does, the new reference has no RefId and no animatable property exists for it.
+    /// </summary>
+    public FloatChannelRef AddChannel(string name) {
+        FloatChannelRef channel = new FloatChannelRef { channelName = name, value = 0f };
+        m_Channels.Add(channel);
+        return channel;
+    }
+
+    public void RemoveChannel(int index) {
+        if (index >= 0 && index < m_Channels.Count)
+            m_Channels.RemoveAt(index);
+    }
+
+    public void ClearChannels() {
+        m_Channels.Clear();
+    }
+
     FloatChannelRef Find(string name) {
         for (int i = 0; i < m_Channels.Count; i++) {
             if (m_Channels[i] != null && m_Channels[i].channelName == name)
@@ -61,43 +85,4 @@ public class SerializeReferenceChannels : MonoBehaviour {
     void OnDidApplyAnimationProperties() {
         Applied?.Invoke();
     }
-
-#if UNITY_EDITOR
-
-    // Plain list mutation, letting ordinary serialization register the reference.
-    [ContextMenu("Add Channel (Direct)")]
-    void AddChannelDirect() {
-        m_Channels.Add(new FloatChannelRef { channelName = $"Channel{m_Channels.Count}", value = 0f });
-        EditorUtility.SetDirty(this);
-
-        ReportLast("Direct");
-    }
-
-    [ContextMenu("Clear Channels")]
-    void ClearChannels() {
-        m_Channels.Clear();
-        EditorUtility.SetDirty(this);
-
-        SerializedObject so = new SerializedObject(this);
-        so.FindProperty("m_Channels").arraySize = 0;
-        so.ApplyModifiedProperties();
-
-        Debug.Log("Cleared.", this);
-    }
-
-    // Reads back through a fresh SerializedObject, which forces a serialize round-trip and is
-    // where RefIds get assigned.
-    void ReportLast(string how) {
-        SerializedObject so = new SerializedObject(this);
-        SerializedProperty list = so.FindProperty("m_Channels");
-        if (list.arraySize == 0) {
-            Debug.Log($"{how}: list is empty.", this);
-            return;
-        }
-
-        SerializedProperty element = list.GetArrayElementAtIndex(list.arraySize - 1);
-        Debug.Log($"{how}: refId={element.managedReferenceId}" +
-            $" type='{element.managedReferenceFullTypename}'", this);
-    }
-#endif
 }
