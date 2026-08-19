@@ -63,25 +63,6 @@ public class SerializeReferenceChannels : MonoBehaviour {
     }
 
 #if UNITY_EDITOR
-    // Two-phase: apply the size change first so the slot exists in the backend, then re-acquire
-    // the element and assign the value.
-    [ContextMenu("Add Channel (SerializedProperty)")]
-    void AddChannelViaSerializedProperty() {
-        SerializedObject so = new SerializedObject(this);
-        SerializedProperty list = so.FindProperty("m_Channels");
-
-        int index = list.arraySize;
-        list.arraySize = index + 1;
-        so.ApplyModifiedProperties();
-
-        so.Update();
-        list = so.FindProperty("m_Channels");
-        SerializedProperty element = list.GetArrayElementAtIndex(index);
-        element.managedReferenceValue = new FloatChannelRef { channelName = $"Channel{index}", value = 0f };
-        so.ApplyModifiedProperties();
-
-        ReportLast("SerializedProperty");
-    }
 
     // Plain list mutation, letting ordinary serialization register the reference.
     [ContextMenu("Add Channel (Direct)")]
