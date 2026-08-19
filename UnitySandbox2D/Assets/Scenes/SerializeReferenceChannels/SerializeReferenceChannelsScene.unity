@@ -128,9 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 99510817}
-  - component: {fileID: 99510819}
   - component: {fileID: 99510818}
-  - component: {fileID: 99510820}
+  - component: {fileID: 99510819}
   m_Layer: 0
   m_Name: SerializeReferenceObj
   m_TagString: Untagged
@@ -187,37 +186,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48ed9f6ec988bb44bda8fd6c0039bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SerializeReferenceChannels
-  m_Channels: []
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &99510820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99510814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c48ed9f6ec988bb44bda8fd6c0039bc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SerializeReferenceChannels
   m_Channels:
-  - rid: 6386413677709885507
-  - rid: 6386413677709885508
+  - rid: 6386413678599340032
+  - rid: 6386413678599340033
   references:
     version: 2
     RefIds:
-    - rid: 6386413677709885507
+    - rid: 6386413678599340032
       type: {class: FloatChannelRef, ns: , asm: Assembly-CSharp}
       data:
-        channelName: Channel0
+        channelName: X
         value: 0
-    - rid: 6386413677709885508
+    - rid: 6386413678599340033
       type: {class: FloatChannelRef, ns: , asm: Assembly-CSharp}
       data:
-        channelName: Channel1
+        channelName: Y
         value: 0
 --- !u!1 &1014805892
 GameObject:
